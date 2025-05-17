@@ -1,0 +1,32 @@
+.custom-menubar {
+    font-family: 'Source Sans 3', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: larger;
+}
+.menu-title-item > .p-menuitem-link {
+    font-weight: bold;
+    font-size: 10rem;
+    color: #33691e !important;
+    cursor: default;
+    pointer-events: none;
+}
+.p-component .title{
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+/* Target icons inside the Menubar */
+.custom-menubar .pi {
+    color: #388e3c; /* example: green */
+}
+.custom-menubar .pi:hover {
+    color: #2e7d32; /* darker green on hover */
+}
+.menu-icon-guidelines .pi{
+    color: #f5b942;
+}
+.menu-icon-guidelines .pi:hover{
+    color: #f9a825;
+}
+
+
