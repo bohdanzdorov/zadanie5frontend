@@ -11,7 +11,7 @@ export default function MenuPage() {
     };
 
     return (
-        <div>
+        <div className="menu-page">
             <Navigation />
             <CenterMenu />
         </div>

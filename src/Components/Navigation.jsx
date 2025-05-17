@@ -1,28 +1,53 @@
-import {Menubar} from "primereact/menubar";
+import { Menubar } from "primereact/menubar";
+import "../Styles/Navigation.css";
+import mathIcon from "../assets/mathematics.png";
 
-export default function Navigation() {
-    const menuItems = [
+export default function Navigation(props) {
+    const userMenu = [
         {
-            label: "PSG Annotation",
-            className: "menu-title-item title",
-        },
-        {
-            label: "Guidelines",
-            icon: "pi pi-info-circle",
-            url: "/guidelines",
-            className: "menu-icon-guidelines"
-        },
-        {
-            label: "Swagger Docs",
-            icon: "pi pi-book",
-            url: "/swagger",
-        },
+            icon: "pi pi-user",
+            items: !props.loggedIn
+                ? [
+                    {
+                        icon: "pi pi-sign-in",
+                        label: "Log in",
+                        url: "/login",
+                        className: "user"
+                    },
+                    {
+                        icon: "pi pi-user-plus",
+                        label: "Register",
+                        url: "/register",
+                        className: "user"
+                    }
+                ]
+                : [
+                    {
+                        icon: "pi pi-sign-out",
+                        label: "Log out",
+                        url: "/logout",
+                        className: "user"
+                    }
+                ]
+        }
     ];
 
+    const start = (
+        <span className="menu-title-item title">
+            <img
+                src={mathIcon}
+                alt="Math icon"
+                style={{ width: "2rem", marginRight: "0.5rem", verticalAlign: "middle" }}
+            />
+            Math Genius
+        </span>
+    );
 
     return (
-        <>
-            <Menubar model={menuItems}  className="custom-menubar" />
-        </>
+        <Menubar
+            className="custom-menubar"
+            model={userMenu}
+            start={start}
+        />
     );
 }
