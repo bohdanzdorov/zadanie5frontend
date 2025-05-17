@@ -10,10 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "katex": "^0.16.22",
     "primeicons": "^7.0.0",
     "primereact": "^10.9.5",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "react-katex": "^3.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
