@@ -1,0 +1,40 @@
+/* ---------- header ---------- */
+.results-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.results-header .title {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.results-header .meta {
+    margin: 4px 0;
+    font-size: 1rem;
+}
+
+/* ---------- answers list ---------- */
+.answers-list {
+    flex: 1 1 40%;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.answer {
+    padding: 10px 14px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.correct {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.wrong {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
