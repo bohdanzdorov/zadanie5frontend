@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { InlineMath, BlockMath  } from "react-katex";
 import axios from "axios";
 import "../Styles/HistoryPage.css";
 import {
     PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer
 } from 'recharts';
+import {MathText} from "../Components/MathText.jsx";
 
 export default function HistoryPage() {
     const [questionStats, setQuestionStats] = useState([]);
@@ -97,8 +97,8 @@ export default function HistoryPage() {
                 {questionStats.map(q => (
                     <tr key={q.question_id}>
                         <td>{q.question_id}</td>
-                        <td>{renderMixedLatex(q.question_text_en)}</td>
-                        <td>{renderMixedLatex(q.question_text_sk)}</td>
+                        <td><MathText text={q.question_text_en}/></td>
+                        <td><MathText text={q.question_text_sk}/></td>
                         <td>{q.field_en}</td>
                         <td>{q.included_in_tests}</td>
                         <td>{q.correct_count}</td>
@@ -132,18 +132,4 @@ export default function HistoryPage() {
 
         </div>
     );
-}
-
-function renderMixedLatex(text) {
-    const parts = text.split(/(\$\$.*?\$\$|\$.*?\$)/g);
-
-    return parts.map((part, i) => {
-        if (part.startsWith('$$') && part.endsWith('$$')) {
-            return <BlockMath key={i} math={part.slice(2, -2)} />;
-        } else if (part.startsWith('$') && part.endsWith('$')) {
-            return <InlineMath key={i} math={part.slice(1, -1)} />;
-        } else {
-            return <span key={i}>{part}</span>;
-        }
-    });
 }
