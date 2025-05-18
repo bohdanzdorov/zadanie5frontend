@@ -3,6 +3,11 @@ import { Routes, Route } from 'react-router-dom'
 import MenuPage from './Pages/MenuPage.jsx'
 import {TestPage} from './Pages/TestPage.jsx'
 import HistoryPage from './Pages/HistoryPage.jsx'
+import LoginPage from './Pages/LoginPage.jsx'
+import LogoutPage from './Pages/LogoutPage.jsx'
+import RegisterPage from './Pages/RegisterPage.jsx'
+import ProfilePage from "./Pages/ProfilePage.jsx";
+import AdminProfilePage from "./Pages/AdminProfilePage.jsx";
 
 function App() {
 
@@ -11,6 +16,11 @@ function App() {
             <Route path="/" element={<MenuPage />} />
             <Route path="/test" element={<TestPage />} />
             <Route path="/history" element={<HistoryPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/logout" element={<LogoutPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/admin" element={<AdminProfilePage />} />
         </Routes>
     )
 }

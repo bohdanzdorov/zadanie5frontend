@@ -1,0 +1,520 @@
+import {useState, useEffect, Fragment} from "react";
+import {useNavigate} from "react-router-dom";
+import {Card} from "primereact/card";
+import {DataTable} from "primereact/datatable";
+import {Column} from "primereact/column";
+import {Button} from "primereact/button";
+import {InputText} from "primereact/inputtext";
+import {Dialog} from "primereact/dialog";
+import {Password} from "primereact/password";
+import {Toast} from "primereact/toast";
+import {Dropdown} from "primereact/dropdown";
+import {TabView, TabPanel} from "primereact/tabview";
+import {Tag} from "primereact/tag";
+import {useRef} from "react";
+import axios from "axios";
+import "../Styles/AuthPages.css";
+
+export default function AdminProfilePage() {
+    const [users, setUsers] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [totalRecords, setTotalRecords] = useState(0);
+    const [lazyState, setLazyState] = useState({
+        first: 0,
+        rows: 10,
+        page: 0,
+        search: "",
+        role: null
+    });
+
+    const [userDialog, setUserDialog] = useState(false);
+    const [deleteUserDialog, setDeleteUserDialog] = useState(false);
+    const [userTestsDialog, setUserTestsDialog] = useState(false);
+    const [user, setUser] = useState(null);
+    const [userTests, setUserTests] = useState([]);
+    // const [userCompletedTests, setUserCompletedTests] = useState([]);
+    const [testsLoading, setTestsLoading] = useState(false);
+    const [submitted, setSubmitted] = useState(false);
+    const toast = useRef(null);
+    const navigate = useNavigate();
+
+    const API = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000/api";
+
+    const roleOptions = [
+        {label: 'Guest', value: 'guest'},
+        {label: 'User', value: 'user'},
+        {label: 'Admin', value: 'admin'}
+    ];
+
+    const languageOptions = [
+        {label: 'English', value: 'en'},
+        {label: 'Slovak', value: 'sk'}
+    ];
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        const userRole = localStorage.getItem("role");
+
+        if (!token || userRole !== "admin") {
+            navigate("/", {replace: true});
+            return;
+        }
+
+        loadUsers();
+    }, [lazyState, navigate]);
+
+    const loadUsers = async () => {
+        setLoading(true);
+        const token = localStorage.getItem("token");
+
+        try {
+            let url = `${API}/admin/users?page=${lazyState.page + 1}&per_page=${lazyState.rows}`;
+
+            if (lazyState.search) {
+                url += `&search=${encodeURIComponent(lazyState.search)}`;
+            }
+
+            if (lazyState.role) {
+                url += `&role=${lazyState.role}`;
+            }
+
+            const response = await axios.get(url, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            setUsers(response.data.data);
+            setTotalRecords(response.data.total);
+        } catch (err) {
+            console.error("Error loading users:", err);
+            if (err.response?.status === 401) {
+                localStorage.removeItem("token");
+                localStorage.removeItem("role");
+                navigate("/login", {replace: true});
+            }
+            toast.current.show({severity: 'error', summary: 'Error', detail: 'Failed to load users', life: 3000});
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const loadUserTests = async (userId) => {
+        setTestsLoading(true);
+        const token = localStorage.getItem("token");
+
+        try {
+            // Load created tests
+            const createdResponse = await axios.get(`${API}/admin/users/${userId}/tests`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            setUserTests(createdResponse.data.data || []);
+
+            // Load completed tests
+            // const completedResponse = await axios.get(`${API}/admin/users/${userId}/completed-tests`, {
+            //     headers: {
+            //         Authorization: `Bearer ${token}`
+            //     }
+            // });
+            // setUserCompletedTests(completedResponse.data.data || []);
+        } catch (err) {
+            console.error("Error loading user tests:", err);
+            toast.current.show({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Failed to load user tests',
+                life: 3000
+            });
+        } finally {
+            setTestsLoading(false);
+        }
+    };
+
+    const openNew = () => {
+        setUser({
+            name: '',
+            email: '',
+            password: '',
+            role: 'user',
+            language: 'en'
+        });
+        setSubmitted(false);
+        setUserDialog(true);
+    };
+
+    const hideDialog = () => {
+        setSubmitted(false);
+        setUserDialog(false);
+    };
+
+    const hideDeleteUserDialog = () => {
+        setDeleteUserDialog(false);
+    };
+
+    const hideUserTestsDialog = () => {
+        setUserTestsDialog(false);
+        setUserTests([]);
+        // setUserCompletedTests([]);
+    };
+
+    const formatDate = (dateString) => {
+        return new Date(dateString).toLocaleString();
+    };
+
+    const saveUser = async () => {
+        setSubmitted(true);
+
+        if (user.name?.trim() && user.email?.trim()) {
+            const token = localStorage.getItem("token");
+            try {
+                if (user.id) {
+                    // Update existing user
+                    const updateData = {...user};
+                    if (!updateData.password) {
+                        delete updateData.password;
+                    }
+
+                    await axios.put(`${API}/admin/users/${user.id}`, updateData, {
+                        headers: {Authorization: `Bearer ${token}`}
+                    });
+
+                    toast.current.show({severity: 'success', summary: 'Success', detail: 'User updated', life: 3000});
+                } else {
+                    // Create new user
+                    await axios.post(`${API}/admin/users`, user, {
+                        headers: {Authorization: `Bearer ${token}`}
+                    });
+
+                    toast.current.show({severity: 'success', summary: 'Success', detail: 'User created', life: 3000});
+                }
+
+                hideDialog();
+                loadUsers();
+            } catch (err) {
+                console.error('Error saving user:', err);
+
+                if (err.response?.data?.errors) {
+                    const validationErrors = Object.values(err.response.data.errors).flat().join(', ');
+                    toast.current.show({severity: 'error', summary: 'Error', detail: validationErrors, life: 3000});
+                } else {
+                    toast.current.show({
+                        severity: 'error',
+                        summary: 'Error',
+                        detail: err.response?.data?.message || 'Failed to save user',
+                        life: 3000
+                    });
+                }
+            }
+        }
+    };
+
+    const editUser = (user) => {
+        setUser({...user, password: ''});
+        setUserDialog(true);
+    };
+
+    const confirmDeleteUser = (user) => {
+        setUser(user);
+        setDeleteUserDialog(true);
+    };
+
+    const viewUserTests = (user) => {
+        setUser(user);
+        setUserTestsDialog(true);
+        loadUserTests(user.id);
+    };
+
+    const deleteUser = async () => {
+        const token = localStorage.getItem("token");
+
+        try {
+            await axios.delete(`${API}/admin/users/${user.id}`, {
+                headers: {Authorization: `Bearer ${token}`}
+            });
+
+            toast.current.show({severity: 'success', summary: 'Success', detail: 'User deleted', life: 3000});
+            setDeleteUserDialog(false);
+            loadUsers();
+        } catch (err) {
+            console.error('Error deleting user:', err);
+            toast.current.show({
+                severity: 'error',
+                summary: 'Error',
+                detail: err.response?.data?.message || 'Failed to delete user',
+                life: 3000
+            });
+        }
+    };
+
+    const onPage = (event) => {
+        setLazyState(prevState => ({
+            ...prevState,
+            page: event.page,
+            first: event.first,
+            rows: event.rows
+        }));
+    };
+
+    const onFilter = (e) => {
+        setLazyState(prevState => ({
+            ...prevState,
+            page: 0,
+            first: 0,
+            search: e.target.value
+        }));
+    };
+
+    const onRoleFilter = (e) => {
+        setLazyState(prevState => ({
+            ...prevState,
+            page: 0,
+            first: 0,
+            role: e.value
+        }));
+    };
+
+    const actionBodyTemplate = (rowData) => {
+        return (
+            <div className="flex flex-wrap gap-2">
+                <Button
+                    icon="pi pi-eye"
+                    rounded outlined
+                    severity="info"
+                    onClick={() => viewUserTests(rowData)}
+                    tooltip="View Tests"
+                    tooltipOptions={{position: 'bottom'}}
+                />
+                <Button
+                    icon="pi pi-pencil"
+                    rounded outlined
+                    onClick={() => editUser(rowData)}
+                    tooltip="Edit"
+                    tooltipOptions={{position: 'bottom'}}
+                />
+                <Button
+                    icon="pi pi-trash"
+                    rounded outlined
+                    severity="danger"
+                    onClick={() => confirmDeleteUser(rowData)}
+                    tooltip="Delete"
+                    tooltipOptions={{position: 'bottom'}}
+                />
+            </div>
+        );
+    };
+
+    const dateBodyTemplate = (rowData) => {
+        return new Date(rowData.created_at).toLocaleString();
+    };
+
+    const scoreBodyTemplate = (rowData) => {
+        return (
+            <Tag
+                value={`${rowData.score || 0}%`}
+                severity={rowData.score >= 70 ? 'success' : rowData.score >= 40 ? 'warning' : 'danger'}
+            />
+        );
+    };
+
+    const header = (
+        <div className="flex flex-wrap justify-content-between align-items-center gap-2">
+            <h3 className="m-0">Manage Users</h3>
+            <div className="flex gap-2">
+                <InputText
+                    placeholder="Search..."
+                    value={lazyState.search}
+                    onChange={onFilter}
+                />
+                <Dropdown
+                    value={lazyState.role}
+                    options={roleOptions}
+                    onChange={onRoleFilter}
+                    placeholder="Filter by role"
+                    className="w-full md:w-14rem"
+                    showClear
+                />
+                <Button label="New" icon="pi pi-plus" onClick={openNew}/>
+            </div>
+        </div>
+    );
+
+    const userDialogFooter = (
+        <Fragment>
+            <Button label="Cancel" icon="pi pi-times" outlined onClick={hideDialog}/>
+            <Button label="Save" icon="pi pi-check" onClick={saveUser}/>
+        </Fragment>
+    );
+
+    const deleteUserDialogFooter = (
+        <Fragment>
+            <Button label="No" icon="pi pi-times" outlined onClick={hideDeleteUserDialog}/>
+            <Button label="Yes" icon="pi pi-check" severity="danger" onClick={deleteUser}/>
+        </Fragment>
+    );
+
+    return (
+        <div className="admin-container" style={{padding: '2rem', width: '80%', margin: '0 auto'}}>
+            <Toast ref={toast}/>
+
+            <Card title="Admin Control Panel" style={{marginBottom: '2rem'}}>
+                <p>Welcome to the admin control panel. Here you can manage users in the system.</p>
+            </Card>
+
+            <Card>
+                <DataTable
+                    value={users}
+                    lazy
+                    paginator
+                    dataKey="id"
+                    rows={lazyState.rows}
+                    rowsPerPageOptions={[5, 10, 25]}
+                    totalRecords={totalRecords}
+                    first={lazyState.first}
+                    onPage={onPage}
+                    loading={loading}
+                    header={header}
+                    emptyMessage="No users found."
+                    style={{width: '100%'}}
+                >
+                    <Column field="id" header="ID" sortable style={{width: '5%'}}></Column>
+                    <Column field="name" header="Name" sortable style={{width: '20%'}}></Column>
+                    <Column field="email" header="Email" sortable style={{width: '30%'}}></Column>
+                    <Column field="role" header="Role" sortable style={{width: '15%'}}></Column>
+                    <Column field="language" header="Language" sortable style={{width: '15%'}}></Column>
+                    <Column body={actionBodyTemplate} exportable={false} style={{width: '15%'}}></Column>
+                </DataTable>
+            </Card>
+
+            {/* Edit User Dialog */}
+            <Dialog
+                visible={userDialog}
+                style={{width: '500px'}}
+                header={user?.id ? "Edit User" : "New User"}
+                modal
+                className="p-fluid"
+                footer={userDialogFooter}
+                onHide={hideDialog}
+            >
+                <div className="field">
+                    <label htmlFor="name">Name</label>
+                    <InputText
+                        id="name"
+                        value={user?.name}
+                        onChange={(e) => setUser(prev => ({...prev, name: e.target.value}))}
+                        required
+                        className={submitted && !user?.name ? 'p-invalid' : ''}
+                    />
+                    {submitted && !user?.name && <small className="p-error">Name is required.</small>}
+                </div>
+
+                <div className="field">
+                    <label htmlFor="email">Email</label>
+                    <InputText
+                        id="email"
+                        value={user?.email}
+                        onChange={(e) => setUser(prev => ({...prev, email: e.target.value}))}
+                        required
+                        className={submitted && !user?.email ? 'p-invalid' : ''}
+                    />
+                    {submitted && !user?.email && <small className="p-error">Email is required.</small>}
+                </div>
+
+                <div className="field">
+                    <label htmlFor="password">{user?.id ? "Password (leave empty to keep current)" : "Password"}</label>
+                    <Password
+                        id="password"
+                        value={user?.password}
+                        onChange={(e) => setUser(prev => ({...prev, password: e.target.value}))}
+                        toggleMask
+                        className={submitted && !user?.password && !user?.id ? 'p-invalid' : ''}
+                    />
+                    {submitted && !user?.password && !user?.id &&
+                        <small className="p-error">Password is required for new users.</small>}
+                </div>
+
+                <div className="field">
+                    <label htmlFor="role">Role</label>
+                    <Dropdown
+                        id="role"
+                        value={user?.role}
+                        options={roleOptions}
+                        onChange={(e) => setUser(prev => ({...prev, role: e.value}))}
+                        placeholder="Select Role"
+                        required
+                        className={submitted && !user?.role ? 'p-invalid' : ''}
+                    />
+                    {submitted && !user?.role && <small className="p-error">Role is required.</small>}
+                </div>
+
+                <div className="field">
+                    <label htmlFor="language">Language</label>
+                    <Dropdown
+                        id="language"
+                        value={user?.language}
+                        options={languageOptions}
+                        onChange={(e) => setUser(prev => ({...prev, language: e.value}))}
+                        placeholder="Select Language"
+                        required
+                        className={submitted && !user?.language ? 'p-invalid' : ''}
+                    />
+                    {submitted && !user?.language && <small className="p-error">Language is required.</small>}
+                </div>
+            </Dialog>
+
+            <Dialog
+                visible={deleteUserDialog}
+                style={{width: '450px'}}
+                header="Confirm"
+                modal
+                footer={deleteUserDialogFooter}
+                onHide={hideDeleteUserDialog}
+            >
+                <div className="flex align-items-center justify-content-center">
+                    <i className="pi pi-exclamation-triangle"
+                       style={{fontSize: '2rem', color: 'var(--red-500)', marginRight: '1rem'}}/>
+                    <span>
+            Are you sure you want to delete <b>{user?.name}</b>?
+          </span>
+                </div>
+            </Dialog>
+            <Dialog
+                visible={userTestsDialog}
+                style={{width: '80%'}}
+                header={`${user?.name}'s Tests`}
+                modal
+                className="p-fluid"
+                onHide={hideUserTestsDialog}
+            >
+                {testsLoading ? (
+                    <p>Loading tests...</p>
+                ) : (
+                    <DataTable
+                        value={userTests}
+                        emptyMessage="No tests found for this user."
+                        paginator
+                        rows={5}
+                        rowsPerPageOptions={[5, 10]}
+                    >
+                        <Column field="id" header="ID" style={{width: '5%'}}></Column>
+                        <Column field="title" header="Title" style={{width: '30%'}}></Column>
+                        <Column
+                            field="created_at"
+                            header="Created At"
+                            body={(rowData) => formatDate(rowData.created_at)}
+                            style={{width: '20%'}}
+                        ></Column>
+                        <Column field="questions_count" header="Questions" style={{width: '10%'}}></Column>
+                        <Column
+                            field="score"
+                            header="Score"
+                            body={(rowData) => `${rowData.score || 0}%`}
+                            style={{width: '10%'}}
+                        ></Column>
+                    </DataTable>
+                )}
+            </Dialog>
+        </div>
+    );
+}

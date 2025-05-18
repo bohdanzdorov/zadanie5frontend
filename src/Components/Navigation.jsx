@@ -30,6 +30,12 @@ export default function Navigation(props) {
                         label: "Log out",
                         url: "/logout",
                         className: "user"
+                    },
+                    {
+                        icon: "pi pi-user-edit",
+                        label: "Profile",
+                        url: isAdmin ? "/admin" : "/profile",
+                        className: "user"
                     }
                 ]
         },
@@ -38,7 +44,12 @@ export default function Navigation(props) {
                 icon: "pi pi-chart-bar",
                 label: "View Tests Statistics",
                 url: "/history"
-            }]
+            },
+                {
+                    icon: "pi pi-users",
+                    label: "Profile",
+                    url: "/admin",
+                }]
             : [])
     ];
 
