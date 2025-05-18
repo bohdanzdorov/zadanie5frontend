@@ -1,7 +1,14 @@
 import "../../Styles/TestResultsMenu.css"
 import {MathText} from "../MathText.jsx";
+import {useNavigate} from "react-router-dom";
 
 export const TestResultsMenu = ({testResult}) => {
+
+    const navigate = useNavigate();
+
+    const handleEndTest = () => {
+        navigate('/');
+    };
 
     const formatSeconds = (sec) => {
         const minutes = Math.floor(sec / 60);
@@ -31,18 +38,16 @@ export const TestResultsMenu = ({testResult}) => {
             </div>
             <div className="answers-list">
                 {testResult.test_questions.map((el, index) => (
-                    <p
+                    <div
                         key={index}
                         className={el.is_correct ? "answer correct" : "answer wrong"}
                     >
                         <MathText text={el.questions.question_text_en}/>
-                    </p>
+                    </div>
                 ))}
             </div>
             <div className="footer">
-                <button className="next-btn" onClick={()=>{console.log("Submit")}}>
-                    Submit
-                </button>
+                <button className="next-btn" onClick={handleEndTest}>Exit</button>
             </div>
         </div>
     )
