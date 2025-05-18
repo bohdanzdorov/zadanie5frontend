@@ -3,6 +3,9 @@ import "../Styles/Navigation.css";
 import mathIcon from "../assets/mathematics.png";
 
 export default function Navigation(props) {
+    const role = localStorage.getItem('role'); // можно заменить на props.role
+    const isAdmin = role === 'admin';
+
     const userMenu = [
         {
             icon: "pi pi-user",
@@ -29,7 +32,14 @@ export default function Navigation(props) {
                         className: "user"
                     }
                 ]
-        }
+        },
+        ...(isAdmin
+            ? [{
+                icon: "pi pi-chart-bar",
+                label: "View Tests Statistics",
+                url: "/history"
+            }]
+            : [])
     ];
 
     const start = (
@@ -51,3 +61,4 @@ export default function Navigation(props) {
         />
     );
 }
+
