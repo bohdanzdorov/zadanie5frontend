@@ -6,7 +6,7 @@ import { BlockMath, InlineMath } from "react-katex";
 import {MathText} from "../../MathText.jsx";
 
 
-export const TestQuestionPanel = ({ answer, setAnswer, question, questionType, questionNumber, totalQuestions, options, onNext }) => {
+export const TestQuestionPanel = ({ answer, setAnswer, question, questionType, questionNumber, totalQuestions, options, onNext, isSubmitting }) => {
     const isLastQuestion = questionNumber === totalQuestions;
 
     return (
@@ -17,13 +17,13 @@ export const TestQuestionPanel = ({ answer, setAnswer, question, questionType, q
             </div>
             <div className="divider"></div>
             {
-                questionType === "multiple_choice" && <MultipleChoiceAnswer options={options} answer={answer} setAnswer={setAnswer}/>
+                questionType === "multiple_choice" && <MultipleChoiceAnswer options={options} answer={answer} setAnswer={setAnswer} disabled={isSubmitting}/>
             }
             {
-                questionType === "open_answer" && <OpenEndedAnswer answer={answer} setAnswer={setAnswer}/>
+                questionType === "open_answer" && <OpenEndedAnswer answer={answer} setAnswer={setAnswer} disabled={isSubmitting}/>
             }
-            <button className="next-btn" onClick={onNext}>
-                {isLastQuestion ? 'Submit' : 'Next'}
+            <button className="next-btn" onClick={onNext} disabled={isSubmitting}>
+                {isSubmitting ? 'Saving...' : isLastQuestion ? 'End test' : 'Next'}
             </button>
         </div>
     );

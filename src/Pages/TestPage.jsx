@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { StartTestMenu } from "../Components/TestComponents/StartTestMenu.jsx";
 import { Test } from "../Components/TestComponents/Test.jsx";
 import { TestResultsMenu } from "../Components/TestComponents/TestResultsMenu.jsx";
+import {TestLoadingScreen} from "../Components/TestComponents/TestLoadingScreen.jsx";
 
 export const TestPage = () => {
-    // 0‑start, 1‑testing, 2‑results
+    // 0‑start, 1‑testing, 2‑results, 3-loading
     const [testState, setTestState] = useState(0);
     const [test, setTest] = useState(null);
     const [testResult, setTestResult] = useState()
@@ -14,6 +15,7 @@ export const TestPage = () => {
 
     const startTest = async () => {
         try {
+            setTestState(3)
             /* ---------- 1) Get EN location from ipapi.co ---------- */
             const ipRes = await fetch("https://ipapi.co/json/");
             const ipData = await ipRes.json();
@@ -68,24 +70,23 @@ export const TestPage = () => {
             if (!testRes.ok) throw new Error("Failed to fetch test");
             const testData = await testRes.json();
 
-            // Save to state
-            setTest(testData);
             setTestState(1);
-
+            setTest(testData);
         } catch (err) {
             console.error("start test error:", err);
         }
     };
 
     const getTestResults = async () => {
+        setTestState(3)
         const url = new URL(`http://127.0.0.1:8000/test/${test.test_id}`);
 
         const testRes = await fetch(url.toString());
         if (!testRes.ok) throw new Error("Failed to fetch test");
         const testData = await testRes.json();
 
-        setTestResult(testData)
         setTestState(2)
+        setTestResult(testData)
     }
 
 
@@ -97,7 +98,7 @@ export const TestPage = () => {
                 <Test setResultPhase={setResultsPhase} test={test}/>
             ) : testState === 2 ? (
                 <TestResultsMenu testResult={testResult}/>
-            ) : null}
+            ) : <TestLoadingScreen/>}
         </>
     );
 };
