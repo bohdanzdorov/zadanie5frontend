@@ -1,7 +1,7 @@
 import React from "react";
 import {MathText} from "../../MathText.jsx";
 
-export const MultipleChoiceAnswer = ({ options, answer, setAnswer }) => {
+export const MultipleChoiceAnswer = ({ options, answer, setAnswer, disabled}) => {
     return (
         <div className="options flex flex-col gap-3">
             {options.map((option, index) => {
@@ -19,6 +19,7 @@ export const MultipleChoiceAnswer = ({ options, answer, setAnswer }) => {
                             value={value}
                             checked={answer === value}
                             onChange={() => setAnswer(value)}
+                            disabled={disabled}
                             className="accent-blue-600"
                         />
                         <span><MathText text={value}/></span>

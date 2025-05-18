@@ -1,7 +1,7 @@
-export const OpenEndedAnswer = ({answer, setAnswer}) => {
+export const OpenEndedAnswer = ({answer, setAnswer, disabled}) => {
     return(
         <div className="textarea-container">
-            <textarea value={answer} onChange={(e)=>setAnswer(e.target.value)} className="answer-textarea" placeholder="Type your answer here..."></textarea>
+            <textarea value={answer} onChange={(e)=>setAnswer(e.target.value)} disabled={disabled} className="answer-textarea" placeholder="Type your answer here..."></textarea>
         </div>
     )
 }

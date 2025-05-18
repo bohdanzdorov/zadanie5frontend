@@ -6,7 +6,6 @@ import bulb from '../assets/bulb.png'
 import {useNavigate} from "react-router-dom";
 
 export const CenterMenu = () => {
-    const navigate = useNavigate();
     const downloadManual = () => {
         const link = document.createElement('a');
         link.href = 'http://127.0.0.1:8000/api/manual/pdf';
@@ -14,9 +13,13 @@ export const CenterMenu = () => {
         link.target = '_blank';
         link.click();
     };
-    const handleCreate = () => {
+
+    const navigate = useNavigate();
+
+    const handleStartTest = () => {
         navigate('/test');
     };
+
 
     const handleHistory = () => {
         navigate('/history');
@@ -26,7 +29,7 @@ export const CenterMenu = () => {
         <>
             <Card className="card" title={<span>Welcome to Your Nerd Classes <img src={bulb} alt="Bulb" style={{width: "5%"}}/></span>}>
                 <div className="menu-container">
-                    <Button className="button" onClick={handleCreate} label="Create" />
+                    <Button className="button" onClick={handleStartTest} label="New Test" />
                     <Button className="button" onClick={handleHistory} label="History" />
                     <Button className="button" label="Info" />
                     <Button className="button" label="API Documentation" />
