@@ -4,13 +4,14 @@ import "../Styles/HistoryPage.css";
 import {
     PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer
 } from 'recharts';
-import {MathText} from "../Components/MathText.jsx";
+import { MathText } from "../Components/MathText.jsx";
 
 export default function HistoryPage() {
     const [questionStats, setQuestionStats] = useState([]);
     const [locationStats, setLocationStats] = useState([]);
+    const [language, setLanguage] = useState("en");
+    const [totalTests, setTotalTests] = useState(0);
     const [loading, setLoading] = useState(true);
-
 
     const API = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000/api";
 
@@ -20,7 +21,9 @@ export default function HistoryPage() {
 
     const getCountryChartData = () => {
         return locationStats.map(loc => ({
-            name: `${loc.country_en} / ${loc.country_sk}`,
+            name: language === "sk"
+                ? loc.country_sk
+                : loc.country_en,
             value: loc.cities.reduce((acc, city) => acc + city.count, 0)
         }));
     };
@@ -29,16 +32,19 @@ export default function HistoryPage() {
 
     const fetchStats = async () => {
         const token = localStorage.getItem("token");
-        try {
-            console.log("Sending token:", token);
 
-            const res = await axios.get(`${API}/admin/history`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                }
+        try {
+            const profileRes = await axios.get(`${API}/profile`, {
+                headers: { Authorization: `Bearer ${token}` }
             });
-            setQuestionStats(res.data.questions_stats || []);
-            setLocationStats(res.data.location_stats || []);
+            setLanguage(profileRes.data.user.language || "en");
+
+            const statsRes = await axios.get(`${API}/admin/history`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            setQuestionStats(statsRes.data.questions_stats || []);
+            setLocationStats(statsRes.data.location_stats || []);
+            setTotalTests(statsRes.data.total_tests || 0);
         } catch (err) {
             console.error("Error loading stats:", err);
         } finally {
@@ -54,38 +60,36 @@ export default function HistoryPage() {
 
     const handleClear = async () => {
         const token = localStorage.getItem("token");
-        if (confirm("Are you sure you want to clear all history?")) {
-            try {
-                await axios.delete(`${API}/admin/history/clear`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
-                alert("History cleared.");
-                fetchStats(); // refresh
-            } catch (err) {
-                alert("Failed to clear history.");
-            }
+
+        try {
+            await axios.delete(`${API}/admin/history/clear`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            console.log("History cleared.");
+            fetchStats();
+        } catch (err) {
+            console.error("Failed to clear history.");
         }
     };
-
 
     if (loading) return <p>Loading...</p>;
 
     return (
-        <div style={{ padding: "2rem" }}>
+        <div className="history-container">
             <h2>📊 Test Statistics</h2>
+            <p><strong>Total tests taken:</strong> {totalTests}</p>
 
-            <button className="button" onClick={handleExport}>⬇️ Export CSV</button>
-            <button className="button danger" onClick={handleClear}>🗑️ Clear History</button>
+            <div style={{ marginBottom: "1rem" }}>
+                <button className="button" onClick={handleExport}>⬇️ Export CSV</button>
+                <button className="button danger" onClick={handleClear}>🗑️ Clear History</button>
+            </div>
 
             <h3 style={{ marginTop: 30 }}>🧠 Questions</h3>
             <table className="styled-table">
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>EN</th>
-                    <th>SK</th>
+                    <th>{language === "sk" ? "SK" : "EN"}</th>
                     <th>Field</th>
                     <th>Included</th>
                     <th>Correct</th>
@@ -97,9 +101,8 @@ export default function HistoryPage() {
                 {questionStats.map(q => (
                     <tr key={q.question_id}>
                         <td>{q.question_id}</td>
-                        <td><MathText text={q.question_text_en}/></td>
-                        <td><MathText text={q.question_text_sk}/></td>
-                        <td>{q.field_en}</td>
+                        <td><MathText text={language === "sk" ? q.question_text_sk : q.question_text_en} /></td>
+                        <td>{language === "sk" ? q.field_sk : q.field_en}</td>
                         <td>{q.included_in_tests}</td>
                         <td>{q.correct_count}</td>
                         <td>{q.incorrect_count}</td>
@@ -129,7 +132,6 @@ export default function HistoryPage() {
                     </PieChart>
                 </ResponsiveContainer>
             </div>
-
         </div>
     );
 }
