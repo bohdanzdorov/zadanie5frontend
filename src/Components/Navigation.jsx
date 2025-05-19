@@ -3,8 +3,8 @@ import "../Styles/Navigation.css";
 import mathIcon from "../assets/mathematics.png";
 
 export default function Navigation(props) {
-    const role = localStorage.getItem('role'); // можно заменить на props.role
-    const isAdmin = role === 'admin';
+    // const role = localStorage.getItem('role'); // можно заменить на props.role
+    // const isAdmin = role === 'admin';
 
     const userMenu = [
         {
@@ -30,28 +30,10 @@ export default function Navigation(props) {
                         label: "Log out",
                         url: "/logout",
                         className: "user"
-                    },
-                    {
-                        icon: "pi pi-user-edit",
-                        label: "Profile",
-                        url: isAdmin ? "/admin" : "/profile",
-                        className: "user"
                     }
                 ]
         },
-        ...(isAdmin
-            ? [{
-                icon: "pi pi-chart-bar",
-                label: "View Tests Statistics",
-                url: "/history"
-            },
-                {
-                    icon: "pi pi-users",
-                    label: "Profile",
-                    url: "/admin",
-                }]
-            : [])
-    ];
+        ];
 
     const start = (
         <span className="menu-title-item title">

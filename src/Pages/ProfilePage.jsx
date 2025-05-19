@@ -90,7 +90,17 @@ export default function ProfilePage() {
                     Authorization: `Bearer ${token}`
                 }
             });
-            setTestsHistory(response.data.tests || []);
+            // Process the tests from the new API structure
+            const processedTests = response.data.tests.map(test => ({
+                id: test.id,
+                created_at: test.location.start_time,
+                location: `${test.location?.city?.en || 'Unknown'}, ${test.location?.country?.en || 'Unknown'}`,
+                total: test.statistics.total_questions,
+                correct: test.statistics.correct_answers,
+                score: test.statistics.accuracy_percent,
+                time_spent: test.statistics.total_time_spent
+            }));
+            setTestsHistory(processedTests);
         } catch (err) {
             console.error("Error fetching user tests:", err);
             setError("Failed to load test history");
@@ -111,6 +121,17 @@ export default function ProfilePage() {
 
         if (newState) {
             fetchUserTests();
+        }
+    };
+    const formatTimeSpent = (seconds) => {
+        if (seconds < 60) {
+            return `${seconds} sec`;
+        } else {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return remainingSeconds > 0 ?
+                `${minutes} min ${remainingSeconds} sec` :
+                `${minutes} min`;
         }
     };
 
@@ -328,17 +349,18 @@ export default function ProfilePage() {
                                 rowsPerPageOptions={[5, 10, 25]}
                                 style={{width: '100%'}}
                             >
-                                <Column field="id" header="Test ID" sortable style={{width: '10%'}}></Column>
-                                <Column field="date" header="Date" body={(rowData) => formatDate(rowData.created_at)}
-                                        sortable style={{width: '25%'}}></Column>
+                                <Column field="id" header="Test ID" sortable style={{width: '8%'}}></Column>
+                                <Column field="created_at" header="Date" body={(rowData) => formatDate(rowData.created_at)}
+                                        sortable style={{width: '20%'}}></Column>
+                                <Column field="location" header="Location" sortable style={{width: '17%'}}></Column>
                                 <Column field="score" header="Score" body={(rowData) => `${rowData.score}%`} sortable
+                                        style={{width: '10%'}}></Column>
+                                <Column field="correct" header="Correct" sortable
+                                        style={{width: '10%'}}></Column>
+                                <Column field="total" header="Total" sortable style={{width: '10%'}}></Column>
+                                <Column field="time_spent" header="Time Spent"
+                                        body={(rowData) => formatTimeSpent(rowData.time_spent)} sortable
                                         style={{width: '15%'}}></Column>
-                                <Column field="correct" header="Correct Answers" sortable
-                                        style={{width: '15%'}}></Column>
-                                <Column field="total" header="Total Questions" sortable style={{width: '15%'}}></Column>
-                                <Column field="time" header="Time Spent"
-                                        body={(rowData) => `${Math.round(rowData.time_spent / 60)} min`} sortable
-                                        style={{width: '20%'}}></Column>
                             </DataTable>
                         )}
                     </div>

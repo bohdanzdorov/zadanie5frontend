@@ -99,26 +99,37 @@ export default function AdminProfilePage() {
         }
     };
 
+    // Changes to loadUserTests function
     const loadUserTests = async (userId) => {
         setTestsLoading(true);
         const token = localStorage.getItem("token");
 
         try {
-            // Load created tests
-            const createdResponse = await axios.get(`${API}/admin/users/${userId}/tests`, {
+            // Load user tests with updated API structure
+            const response = await axios.get(`${API}/admin/users/${userId}/tests`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
-            setUserTests(createdResponse.data.data || []);
 
-            // Load completed tests
-            // const completedResponse = await axios.get(`${API}/admin/users/${userId}/completed-tests`, {
-            //     headers: {
-            //         Authorization: `Bearer ${token}`
-            //     }
-            // });
-            // setUserCompletedTests(completedResponse.data.data || []);
+            // Process tests from the new API structure
+            const tests = response.data.data.map(test => ({
+                id: test.id,
+                created_at: test.location.start_time,
+                location: test.location ? {
+                    country: test.location.country,
+                    city: test.location.city,
+                    start_time: test.location.start_time
+                } : null,
+                total_questions: test.statistics.total_questions,
+                correct_answers: test.statistics.correct_answers,
+                accuracy_percent: test.statistics.accuracy_percent,
+                total_time_spent: test.statistics.total_time_spent,
+                average_time: test.statistics.average_time_per_question,
+                questions: test.questions || []
+            }));
+
+            setUserTests(tests);
         } catch (err) {
             console.error("Error loading user tests:", err);
             toast.current.show({
@@ -158,7 +169,17 @@ export default function AdminProfilePage() {
         setUserTests([]);
         // setUserCompletedTests([]);
     };
-
+    const formatTimeSpent = (seconds) => {
+        if (seconds < 60) {
+            return `${seconds} sec`;
+        } else {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return remainingSeconds > 0 ?
+                `${minutes} min ${remainingSeconds} sec` :
+                `${minutes} min`;
+        }
+    };
     const formatDate = (dateString) => {
         return new Date(dateString).toLocaleString();
     };
@@ -498,19 +519,48 @@ export default function AdminProfilePage() {
                         rowsPerPageOptions={[5, 10]}
                     >
                         <Column field="id" header="ID" style={{width: '5%'}}></Column>
-                        <Column field="title" header="Title" style={{width: '30%'}}></Column>
                         <Column
                             field="created_at"
-                            header="Created At"
+                            header="Date"
                             body={(rowData) => formatDate(rowData.created_at)}
-                            style={{width: '20%'}}
+                            style={{width: '15%'}}
                         ></Column>
-                        <Column field="questions_count" header="Questions" style={{width: '10%'}}></Column>
                         <Column
-                            field="score"
-                            header="Score"
-                            body={(rowData) => `${rowData.score || 0}%`}
+                            field="location"
+                            header="Location"
+                            body={(rowData) => rowData.location ?
+                                `${rowData.location.city?.en || 'Unknown'}, ${rowData.location.country?.en || 'Unknown'}` :
+                                'Unknown'
+                            }
+                            style={{width: '15%'}}
+                        ></Column>
+                        <Column
+                            field="total_questions"
+                            header="Questions"
                             style={{width: '10%'}}
+                        ></Column>
+                        <Column
+                            field="correct_answers"
+                            header="Correct"
+                            style={{width: '10%'}}
+                        ></Column>
+                        <Column
+                            field="accuracy_percent"
+                            header="Score"
+                            body={(rowData) => (
+                                <Tag
+                                    value={`${rowData.accuracy_percent}%`}
+                                    severity={rowData.accuracy_percent >= 70 ? 'success' :
+                                        rowData.accuracy_percent >= 40 ? 'warning' : 'danger'}
+                                />
+                            )}
+                            style={{width: '10%'}}
+                        ></Column>
+                        <Column
+                            field="total_time_spent"
+                            header="Time Spent"
+                            body={(rowData) => formatTimeSpent(rowData.total_time_spent)}
+                            style={{width: '15%'}}
                         ></Column>
                     </DataTable>
                 )}
