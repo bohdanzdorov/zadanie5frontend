@@ -26,6 +26,27 @@
     border-radius: 8px;
     margin-bottom: 8px;
     font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.answer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.question-text {
+    display: inline;
+    white-space: normal;
+    font-size: 1.25rem;
+}
+
+.toggle-indicator {
+    font-size: 1rem;
+    margin-left: 10px;
+    color: #555;
+    user-select: none;
 }
 
 .correct {
@@ -37,4 +58,19 @@
     background-color: #f8d7da;
     color: #721c24;
 }
+
+.answer.expanded {
+    padding-bottom: 16px;
+}
+
+.expanded-info {
+    margin-top: 8px;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.expanded-info p {
+    margin: 4px 0;
+}
+
 
