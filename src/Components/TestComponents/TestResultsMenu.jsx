@@ -49,7 +49,7 @@ export const TestResultsMenu = ({ testResult }) => {
                         onClick={() => toggleExpand(index)}
                     >
                         <div className="answer-header">
-                            <p className="question-text"> <MathText text={el.questions.question_text_en} /> </p>
+                            <div className="question-text"> <MathText text={el.questions.question_text_en} /> </div>
                             <span className="toggle-indicator">{expandedIndex === index ? "▼" : "►"}</span>
                         </div>
                         {expandedIndex === index && (

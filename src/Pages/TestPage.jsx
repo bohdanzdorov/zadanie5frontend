@@ -58,17 +58,42 @@ export const TestPage = () => {
                 `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}` +
                 `T${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
 
-            /* ---------- 4) Fetch the test ---------- */
-            const url = new URL("http://127.0.0.1:8000/test");
-            url.searchParams.append("country_en", country_en);
-            url.searchParams.append("country_sk", country_en);
-            url.searchParams.append("city_en", city_en);
-            url.searchParams.append("city_sk", city_en);
-            url.searchParams.append("start_time", start_time);
+            const excluded_question_ids = JSON.parse(localStorage.getItem("question_ids") || "[]");  // Getting previous question_ids if stored
 
-            const testRes = await fetch(url.toString());
+            const requestBody = {
+                country_en: country_en,
+                country_sk: country_en,
+                city_en: city_en,
+                city_sk: city_en,
+                start_time: start_time,
+                excluded_question_ids: excluded_question_ids,
+            };
+
+            // 5) Make the POST request to fetch the test
+            const testRes = await fetch("http://127.0.0.1:8000/test", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(requestBody),
+            });
+
             if (!testRes.ok) throw new Error("Failed to fetch test");
             const testData = await testRes.json();
+
+            if (!testData.is_new) {
+                console.log("Test created with some repeated questions.");
+            }
+
+            let existingQuestionIds = JSON.parse(localStorage.getItem("question_ids") || "[]");
+            const newQuestionIds = testData.questions.map(q => q.id);
+
+            const updatedQuestionIds = [
+                ...new Set([...existingQuestionIds, ...newQuestionIds])
+            ];
+
+            // 9) Update localStorage with the new question IDs list
+            localStorage.setItem("question_ids", JSON.stringify(updatedQuestionIds));
 
             setTestState(1);
             setTest(testData);
