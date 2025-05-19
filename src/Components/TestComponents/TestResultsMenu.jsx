@@ -1,13 +1,18 @@
-import "../../Styles/TestResultsMenu.css"
-import {MathText} from "../MathText.jsx";
-import {useNavigate} from "react-router-dom";
+import "../../Styles/TestResultsMenu.css";
+import { MathText } from "../MathText.jsx";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
-export const TestResultsMenu = ({testResult}) => {
-
+export const TestResultsMenu = ({ testResult }) => {
     const navigate = useNavigate();
+    const [expandedIndex, setExpandedIndex] = useState(null);
 
     const handleEndTest = () => {
-        navigate('/');
+        navigate("/");
+    };
+
+    const toggleExpand = (index) => {
+        setExpandedIndex(index === expandedIndex ? null : index);
     };
 
     const formatSeconds = (sec) => {
@@ -18,8 +23,8 @@ export const TestResultsMenu = ({testResult}) => {
             : `${seconds} second${seconds !== 1 ? "s" : ""}`;
     };
 
-    return(
-        <div className={"test-panel"}>
+    return (
+        <div className="test-panel">
             <div className="results-header">
                 <h3 className="title">Test finished</h3>
                 <p className="meta">
@@ -40,9 +45,21 @@ export const TestResultsMenu = ({testResult}) => {
                 {testResult.test_questions.map((el, index) => (
                     <div
                         key={index}
-                        className={el.is_correct ? "answer correct" : "answer wrong"}
+                        className={`answer ${el.is_correct ? "correct" : "wrong"} ${expandedIndex === index ? "expanded" : ""}`}
+                        onClick={() => toggleExpand(index)}
                     >
-                        <MathText text={el.questions.question_text_en}/>
+                        <div className="answer-header">
+                            <p className="question-text"> <MathText text={el.questions.question_text_en} /> </p>
+                            <span className="toggle-indicator">{expandedIndex === index ? "▼" : "►"}</span>
+                        </div>
+                        {expandedIndex === index && (
+                            <div className="expanded-info">
+                                <p><strong>Field:</strong> {el.questions.field_id}</p>
+                                <p><strong>Correct Answer:</strong> {el.questions.right_answer_en}</p>
+                                <p><strong>Your Time:</strong> {formatSeconds(Math.round(el.time_spent_seconds))}</p>
+                                <p><strong>Average Time:</strong> {formatSeconds(Math.round(el.average_time))}</p>
+                            </div>
+                        )}
                     </div>
                 ))}
             </div>
@@ -50,5 +67,5 @@ export const TestResultsMenu = ({testResult}) => {
                 <button className="next-btn" onClick={handleEndTest}>Exit</button>
             </div>
         </div>
-    )
-}
+    );
+};
