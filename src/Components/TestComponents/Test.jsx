@@ -1,12 +1,19 @@
 import {useEffect, useRef, useState} from "react";
 import {TestQuestionPanel} from "./TestQuestionPanel/TestQuestionPanel.jsx";
+import {RepeatedQuestionScreen} from "./RepeatedQuestionScreen.jsx";
 
 export const Test = ({test, setResultPhase}) => {
     const [curQuestionNum, setCurQuestionNum] = useState(0)
     const [curAnswer, setCurAnswer] = useState("")
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isNewQuestions, setIsNewQuestions] = useState(false)
 
     const startTimeRef = useRef(Date.now()); // ms timestamp when current question loaded
+
+    useEffect(() => {
+        setIsNewQuestions(test.is_new)
+        console.log(test.is_new)
+    }, [test.is_new]);
 
     useEffect(() => {
         startTimeRef.current = Date.now();
@@ -54,6 +61,23 @@ export const Test = ({test, setResultPhase}) => {
     }
 
     return (
-        <TestQuestionPanel answer={curAnswer} setAnswer={setCurAnswer} question={test.questions[curQuestionNum].question_text_en} questionType={test.questions[curQuestionNum].type} onNext={handleNextButtonPress} options={test.questions[curQuestionNum].options} questionNumber={curQuestionNum+1} totalQuestions={test.questions.length} isSubmitting={isSubmitting}/>
+        <>
+            {/* Display a warning if the test is not new */}
+            {!isNewQuestions ? (
+                <RepeatedQuestionScreen proceedToTest={()=>setIsNewQuestions(true)}/>
+            ) : (
+                <TestQuestionPanel
+                    answer={curAnswer}
+                    setAnswer={setCurAnswer}
+                    question={test.questions[curQuestionNum].question_text_en}
+                    questionType={test.questions[curQuestionNum].type}
+                    onNext={handleNextButtonPress}
+                    options={test.questions[curQuestionNum].options}
+                    questionNumber={curQuestionNum + 1}
+                    totalQuestions={test.questions.length}
+                    isSubmitting={isSubmitting}
+                />
+            )}
+        </>
     )
 }

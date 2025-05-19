@@ -69,11 +69,14 @@ export const TestPage = () => {
                 excluded_question_ids: excluded_question_ids,
             };
 
+            const curToken = localStorage.getItem("token")
+
             // 5) Make the POST request to fetch the test
             const testRes = await fetch("http://127.0.0.1:8000/test", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    'Authorization': `Bearer ${curToken}`,
                 },
                 body: JSON.stringify(requestBody),
             });
