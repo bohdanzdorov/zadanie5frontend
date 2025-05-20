@@ -1,9 +1,45 @@
+/* Убираем обрезку и лишние полосы прокрутки */
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background: linear-gradient(to right, #4ef99b, #2ee0d7);
+    overflow-x: hidden;
+    height: auto;
+    min-height: 100vh;
+}
+
+/* Обёртка — обычный блочный контейнер */
+.history-wrapper {
+    padding: 2rem;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Контейнер — ограничение ширины и стили */
+.history-container {
+    background-color: white;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+.button-container {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0;
+    flex-wrap: wrap;
+}
+
 .button {
     background-color: #4caf50;
     color: white;
     border: none;
     padding: 10px 18px;
-    margin: 5px 5px 20px 0;
     cursor: pointer;
     border-radius: 5px;
     font-weight: bold;
@@ -28,21 +64,17 @@
     margin-top: 1rem;
     font-size: 0.95rem;
     border: 1px solid #ddd;
+    table-layout: fixed;
 }
 
-.styled-table th, .styled-table td {
+.styled-table th,
+.styled-table td {
     border: 1px solid #ccc;
     padding: 10px;
     text-align: center;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
-
-.history-container {
-    padding: 2rem;
-    background-color: white;
-    min-height: 100vh;
-    box-sizing: border-box;
-}
-
 
 .styled-table th {
     background-color: #009879;
@@ -55,4 +87,11 @@
 
 .styled-table tr:hover {
     background-color: #f1f1f1;
+}
+
+.chart-wrapper {
+    width: 100%;
+    max-width: 500px;
+    height: 300px;
+    margin: 2rem auto;
 }
