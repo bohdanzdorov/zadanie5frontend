@@ -16,12 +16,31 @@ export const TestResultsMenu = ({ testResult }) => {
     };
 
     const formatSeconds = (sec) => {
-        const minutes = Math.floor(sec / 60);
-        const seconds = sec % 60;
-        return minutes
-            ? `${minutes} minute${minutes !== 1 ? "s" : ""} ${seconds} second${seconds !== 1 ? "s" : ""}`
-            : `${seconds} second${seconds !== 1 ? "s" : ""}`;
+        try{
+            const minutes = Math.floor(sec / 60);
+            const seconds = sec % 60;
+            return minutes
+                ? `${minutes} minute${minutes !== 1 ? "s" : ""} ${seconds} second${seconds !== 1 ? "s" : ""}`
+                : `${seconds} second${seconds !== 1 ? "s" : ""}`;
+        }catch (e){
+            console.log(e);
+            return "0 minutes 0 seconds"
+        }
     };
+    const formatFields = (fields) => {
+        try{
+            const fields_en = fields.map(field => field.name_en).join(', ');
+            const fields_sk = fields.map(field => field.name_sk).join(', ');
+
+            return {
+                fields_en,
+                fields_sk
+            };
+        }catch (e){
+            console.log(e);
+            return "Unknown"
+        }
+    }
 
     return (
         <div className="test-panel">
@@ -54,7 +73,7 @@ export const TestResultsMenu = ({ testResult }) => {
                         </div>
                         {expandedIndex === index && (
                             <div className="expanded-info">
-                                <p><strong>Field:</strong> {el.questions.field_id}</p>
+                                <p><strong>Field:</strong> {formatFields(el.questions.fields).fields_en}</p>
                                 <p><strong>Correct Answer:</strong> {el.questions.right_answer_en}</p>
                                 <p><strong>Your Time:</strong> {formatSeconds(Math.round(el.time_spent_seconds))}</p>
                                 <p><strong>Average Time:</strong> {formatSeconds(Math.round(el.average_time))}</p>
