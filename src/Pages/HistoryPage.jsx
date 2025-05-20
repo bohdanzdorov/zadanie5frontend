@@ -75,62 +75,68 @@ export default function HistoryPage() {
     if (loading) return <p>Loading...</p>;
 
     return (
-        <div className="history-container">
-            <h2>📊 Test Statistics</h2>
-            <p><strong>Total tests taken:</strong> {totalTests}</p>
+        <div className="history-wrapper">
+            <div className="history-container">
+                <h2>📊 Test Statistics</h2>
+                <p><strong>Total tests taken:</strong> {totalTests}</p>
 
-            <div style={{ marginBottom: "1rem" }}>
-                <button className="button" onClick={handleExport}>⬇️ Export CSV</button>
-                <button className="button danger" onClick={handleClear}>🗑️ Clear History</button>
-            </div>
+                <div className="button-container">
+                    <button className="button" onClick={handleExport}>⬇️ Export CSV</button>
+                    <button className="button danger" onClick={handleClear}>🗑️ Clear History</button>
+                </div>
 
-            <h3 style={{ marginTop: 30 }}>🧠 Questions</h3>
-            <table className="styled-table">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>{language === "sk" ? "SK" : "EN"}</th>
-                    <th>Field</th>
-                    <th>Included</th>
-                    <th>Correct</th>
-                    <th>Incorrect</th>
-                    <th>Avg Time</th>
-                </tr>
-                </thead>
-                <tbody>
-                {questionStats.map(q => (
-                    <tr key={q.question_id}>
-                        <td>{q.question_id}</td>
-                        <td><MathText text={language === "sk" ? q.question_text_sk : q.question_text_en} /></td>
-                        <td>{language === "sk" ? q.field_sk : q.field_en}</td>
-                        <td>{q.included_in_tests}</td>
-                        <td>{q.correct_count}</td>
-                        <td>{q.incorrect_count}</td>
-                        <td>{Number(q.average_time_spent).toFixed(1)}</td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
+                <div className="history-table-section">
+                    <h3>🧠 Questions</h3>
+                    <table className="styled-table">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>{language === "sk" ? "SK" : "EN"}</th>
+                            <th>Field</th>
+                            <th>Included</th>
+                            <th>Correct</th>
+                            <th>Incorrect</th>
+                            <th>Avg Time</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {questionStats.map(q => (
+                            <tr key={q.question_id}>
+                                <td>{q.question_id}</td>
+                                <td><MathText text={language === "sk" ? q.question_text_sk : q.question_text_en} /></td>
+                                <td>{language === "sk" ? q.field_sk : q.field_en}</td>
+                                <td>{q.included_in_tests}</td>
+                                <td>{q.correct_count}</td>
+                                <td>{q.incorrect_count}</td>
+                                <td>{Number(q.average_time_spent).toFixed(1)}</td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                </div>
 
-            <h3 style={{ marginTop: 40 }}>🌍 Locations</h3>
-            <div style={{ width: "100%", maxWidth: "500px", height: 300, margin: "2rem auto" }}>
-                <ResponsiveContainer>
-                    <PieChart>
-                        <Pie
-                            data={getCountryChartData()}
-                            dataKey="value"
-                            nameKey="name"
-                            outerRadius={100}
-                            label
-                        >
-                            {getCountryChartData().map((entry, index) => (
-                                <Cell key={`cell-${index}`} fill={chartColors[index % chartColors.length]} />
-                            ))}
-                        </Pie>
-                        <Tooltip />
-                        <Legend />
-                    </PieChart>
-                </ResponsiveContainer>
+                <div className="chart-section">
+                    <h3 style={{ marginTop: 40 }}>🌍 Locations</h3>
+                    <div className="chart-wrapper">
+                        <ResponsiveContainer>
+                            <PieChart>
+                                <Pie
+                                    data={getCountryChartData()}
+                                    dataKey="value"
+                                    nameKey="name"
+                                    outerRadius={100}
+                                    label
+                                >
+                                    {getCountryChartData().map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={chartColors[index % chartColors.length]} />
+                                    ))}
+                                </Pie>
+                                <Tooltip />
+                                <Legend />
+                            </PieChart>
+                        </ResponsiveContainer>
+                    </div>
+                </div>
             </div>
         </div>
     );
