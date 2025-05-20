@@ -8,7 +8,6 @@ export const RepeatedQuestionScreen = ({proceedToTest}) => {
 
     return (
         <div className="test-panel">
-            <button className="next-btn" onClick={proceedToTest}>{t('repeatedQuestionScreen.continueButton')}</button>
             <div className="repeated-warning-content">
                 <h2 className="warning-heading">⚠️ {t('repeatedQuestionScreen.warningText')}</h2>
                 <p className="warning-text">
