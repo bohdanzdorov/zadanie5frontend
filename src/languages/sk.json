@@ -88,5 +88,46 @@
       "averageTime": "Priemerný čas"
     },
     "exit": "Ukončiť"
+  },
+  "profilePage": {
+    "title": "Môj profil",
+    "updateProfile": "Aktualizovať profil",
+    "historyButton": {
+      "hide": "Skryť históriu testov",
+      "show": "Zobraziť históriu testov"
+    },
+    "passwordButton": {
+      "cancel": "Zrušiť zmenu hesla",
+      "approve": "Zmeniť heslo"
+    },
+    "testsHistory": {
+      "title": "Moja história testov",
+      "loading": "Načítava sa história testov...",
+      "notFound": "Nebola nájdená žiadna história testov. Dokončite test, aby sa tu zobrazili výsledky.",
+      "table": {
+        "date": "Dátum",
+        "correct": "Správne",
+        "total": "Spolu"
+      }
+    },
+    "loading" : "Načítanie údajov profilu...",
+    "passwordForm": {
+      "currentPassword": "Aktuálne heslo",
+      "newPassword": "Nové heslo",
+      "confirmNewPassword": "Potvrdiť nové heslo",
+      "changeButton": "Zmeniť heslo"
+    },
+    "errorMessages": {
+      "errorLoadProfile": "Nepodarilo sa načítať údaje profilu",
+      "errorLoadHistory": "Nepodarilo sa načítať históriu testov",
+      "errorUpdateProfile": "Nepodarilo sa aktualizovať profil",
+      "errorPasswordNotMatch": "Nové heslá sa nezhodujú",
+      "errorChangePassword": "Nepodarilo sa zmeniť heslo"
+    },
+    "successMessages": {
+      "profileUpdate": "Profil bol úspešne aktualizovaný",
+      "passwordChange": "Heslo bolo úspešne zmenené"
+    }
+
   }
 }

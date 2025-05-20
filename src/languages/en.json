@@ -88,5 +88,48 @@
       "averageTime" : "Average Time"
     },
     "exit" : "Exit"
+  },
+
+
+  "profilePage" : {
+    "title" : "My Profile",
+    "updateProfile" : "Update Profile",
+    "historyButton" : {
+      "hide" : "Hide Tests History",
+      "show" : "View Tests History"
+    },
+    "passwordButton" : {
+      "cancel" : "Cancel Password Change",
+      "approve" : "Change Password"
+    },
+    "testsHistory" : {
+      "title" : "My Tests History",
+      "loading" : "Loading tests history...",
+      "notFound" : "No test history found. Complete a test to see your results here.",
+      "table" : {
+        "date" : "Date",
+        "correct" : "Correct",
+        "total" : "Total"
+      }
+    },
+    "passwordForm" : {
+      "currentPassword" : "Current Password",
+      "newPassword" : "New Password",
+      "confirmNewPassword" : "Confirm New Password",
+      "changeButton" : "Change Password"
+    },
+    "loading" : "Loading profile data...",
+    "errorMessages" : {
+      "errorLoadProfile" : "Failed to load profile data",
+      "errorLoadHistory" : "Failed to load test history",
+      "errorUpdateProfile" : "Failed to update profile",
+      "errorPasswordNotMatch" : "New passwords don't match",
+      "errorChangePassword" : "Failed to change password"
+    },
+    "successMessages" : {
+      "profileUpdate" : "Profile updated successfully",
+      "passwordChange" : "Password changed successfully"
+    }
+
   }
 }
