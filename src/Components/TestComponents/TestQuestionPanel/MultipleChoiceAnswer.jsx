@@ -1,11 +1,14 @@
 import React from "react";
 import {MathText} from "../../MathText.jsx";
+import {useTranslation} from "react-i18next";
 
 export const MultipleChoiceAnswer = ({ options, answer, setAnswer, disabled}) => {
+    const { t, i18n } = useTranslation();
+
     return (
         <div className="options flex flex-col gap-3">
             {options.map((option, index) => {
-                const value = option.option_en ?? "";
+                const value = i18n.language === "en" ? option.option_en : option.option_sk
                 return (
                     <label
                         key={index}

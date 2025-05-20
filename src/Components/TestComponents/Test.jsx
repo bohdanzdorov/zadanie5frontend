@@ -57,11 +57,12 @@ export const Test = ({test, setResultPhase}) => {
             setCurAnswer("");
         } catch (err) {
             console.error("submitAnswer error:", err);
-            alert("Something went wrong. Please try again.");
+            alert(t('test.errorMessage'));
         } finally {
             setIsSubmitting(false);
         }
     }
+
 
     return (
         <>
@@ -72,7 +73,7 @@ export const Test = ({test, setResultPhase}) => {
                 <TestQuestionPanel
                     answer={curAnswer}
                     setAnswer={setCurAnswer}
-                    question={test.questions[curQuestionNum].question_text_i18n[i18n.language]}
+                    question={i18n.language === "en" ? test.questions[curQuestionNum].question_text_en : test.questions[curQuestionNum].question_text_sk}
                     questionType={test.questions[curQuestionNum].type}
                     onNext={handleNextButtonPress}
                     options={test.questions[curQuestionNum].options}

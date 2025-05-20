@@ -57,6 +57,9 @@
     "textIfError": "Presmerovanie na úvodnú stránku...",
     "errorMessage": "Odhlásenie na serveri zlyhalo, ale lokálna relácia bola vymazaná"
   },
+  "test" : {
+    "errorMessage" : "Niečo sa pokazilo. Skúste to prosím znova."
+  },
   "startTestMenu" : {
     "testInfo" : "Kliknutím na tlačidlo nižšie môžete vygenerovať nový test s 10 náhodnými otázkami.",
     "startButton" : "Začať"
@@ -65,9 +68,25 @@
     "warningText": "Upozornenie: Tento test obsahuje niektoré opakujúce sa otázky.",
     "helperText": "Upozorňujeme, že na niektoré z týchto otázok ste už odpovedali.",
     "continueButton": "Pokračovať"
+  },
+  "OpenEndedAnswerPlaceholder" : "Tu napíšte svoju odpoveď...",
+  "testQuestionPanel": {
+    "saving": "Ukladanie...",
+    "endTest": "Ukončiť",
+    "next": "Ďalej"
+  },
+  "testLoadingScreen" : "Načítavanie...",
+  "testResultMenu": {
+    "title": "Test dokončený",
+    "score": "Skóre",
+    "location": "Lokalita",
+    "timeSpent": "Strávený čas",
+    "expandedResult": {
+      "field": "Oblasť",
+      "correctAnswer": "Správna odpoveď",
+      "yourTime": "Váš čas",
+      "averageTime": "Priemerný čas"
+    },
+    "exit": "Ukončiť"
   }
-
-
-
-
 }

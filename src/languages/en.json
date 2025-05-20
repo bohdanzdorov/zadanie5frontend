@@ -57,6 +57,9 @@
     "textIfError" : "Redirecting to home page...",
     "errorMessage" : "Logout failed on server but local session cleared"
   },
+  "test" : {
+    "errorMessage" : "Something went wrong. Please try again."
+  },
   "startTestMenu" : {
     "testInfo" : "You can generate new test with 10 random questions by clicking the button below.",
     "startButton" : "Start"
@@ -65,5 +68,25 @@
     "warningText" : "Warning: This test contains some repeated questions.",
     "helperText" : "Please note that you have already answered to some of the questions in this test.",
     "continueButton" : "Continue"
+  },
+  "OpenEndedAnswerPlaceholder" : "Type your answer here...",
+  "testQuestionPanel" : {
+    "saving" : "Saving...",
+    "endTest" : "End test",
+    "next" : "Next"
+  },
+  "testLoadingScreen" : "Loading...",
+  "testResultMenu" : {
+    "title" : "Test finished",
+    "score" : "Score",
+    "location" : "Location",
+    "timeSpent" : "Time spent",
+    "expandedResult" : {
+      "field" : "Field",
+      "correctAnswer" : "Correct Answer",
+      "yourTime" : "Your Time",
+      "averageTime" : "Average Time"
+    },
+    "exit" : "Exit"
   }
 }
