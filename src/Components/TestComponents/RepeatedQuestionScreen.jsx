@@ -1,11 +1,19 @@
 import React from "react";
+import "../../Styles/RepeatedQuestionScreen.css"
+import {MathText} from "../MathText.jsx";
 
 export const RepeatedQuestionScreen = ({proceedToTest}) => {
     return (
         <div className="test-panel">
-            <h2>Warning: This test contains some repeated questions.</h2>
-            <p>Please note that you have already answered to some of the questions in this test.</p>
-            <button className="next-btn" onClick={proceedToTest}>Continue</button>
+            <div className="repeated-warning-content">
+                <h2 className="warning-heading">⚠️ Warning: Repeated Questions</h2>
+                <p className="warning-text">
+                  Some of the questions in this test were already answered earlier. Your responses might be used for validation purposes.
+                </p>
+            </div>
+            <button className="next-btn" onClick={proceedToTest}>
+                Continue
+            </button>
         </div>
     )
 }

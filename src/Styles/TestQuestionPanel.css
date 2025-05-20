@@ -54,11 +54,11 @@
 
 .option input {
     margin-right: 10px;
-    accent-color: #4CAF50; /* Change radio button color */
+    accent-color: #4CAF50;
 }
 
-.option label {
-    font-size: 1.4rem;
+.option span {
+    font-size: 1.3rem;
     color: #555;
 }
 
@@ -90,6 +90,7 @@
 
 .next-btn {
     background-color: #4CAF50;
+    width: fit-content;
     color: white;
     font-size: 18px;
     padding: 12px 24px;
@@ -98,7 +99,6 @@
     cursor: pointer;
     display: block;
     margin: 20px auto 0;
-    width: 120px;
     text-align: center;
     font-weight: 600;
     transition: background-color 0.3s;
