@@ -76,7 +76,7 @@ export const CenterMenu = () => {
                     <>
                         <Button className="button" onClick={handleStartTest} label={t('menu.centerMenu.buttons.newTest')} icon="pi pi-play"/>
                         <Button className="button" onClick={handleProfile} label={t('menu.centerMenu.buttons.profile')} icon="pi pi-user"/>
-                        <Button className="button" label={t('menu.centerMenu.buttons.apiDocumentation')} icon="pi pi-history"/>
+                        <Button className="button" onClick={()=>navigate('/swagger')} label={t('menu.centerMenu.buttons.apiDocumentation')} icon="pi pi-history"/>
                         <Button className="button" onClick={downloadManual} label={t('menu.centerMenu.buttons.downloadManual')}
                                 icon="pi pi-info-circle"/>
                     </>
