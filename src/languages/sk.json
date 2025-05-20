@@ -1,0 +1,73 @@
+{
+  "menu" :
+  {
+    "title" : "Matematický Génius",
+    "authButtons" : {
+      "login" : "Prihlásť sa",
+      "logout" : " Odhlásiť sa",
+      "register" : "Zaregistrovať sa"
+    },
+    "centerMenu" : {
+      "title" : "Na ceste k STU",
+      "buttons" : {
+        "adminDashboard" : "Panel Administratora",
+        "testHistory" : "História testov",
+        "downloadManual" : "Stiahni si príručku",
+        "newTest" : "Nový test",
+        "profile" : "Profil",
+        "apiDocumentation" : "Dokumentácia API",
+        "tryTest" : "Vyskúšaj test"
+      }
+    }
+  },
+  "registration": {
+    "operation": "Registrácia",
+    "name": "Meno",
+    "email": "Email",
+    "password": "Heslo",
+    "enterPassword": "Zadajte heslo",
+    "passwordStrength" : {
+      "weak" : "Slabe",
+      "medium" : "Stredne",
+      "strong" : "Silne"
+    },
+    "confirmPassword": "Potvrď heslo",
+    "language": {
+      "name" : "Jazyk",
+      "english": "Angličtina",
+      "slovak": "Slovenčina"
+    },
+    "register": "Registrovať",
+    "registering" : "Registrujeme...",
+    "additionalLabel": "Už máte účet?",
+    "successMessage" : "Registrácia úspešná! Prihláste sa.",
+    "errorMessage" : "Registrácia zlyhala. Skúste to prosím znova.",
+    "passwordNotMatch" : "Heslá sa nezhodujú"
+  },
+  "login": {
+    "operation": "Prihlásenie",
+    "login": "Prihlásiť sa",
+    "loggingIn": "Prihlasovanie...",
+    "additionalLabel": "Nemáte účet?",
+    "errorMessage": "Prihlásenie zlyhalo. Skontrolujte svoje prihlasovacie údaje."
+  },
+  "logout": {
+    "operation": "Odhlásenie",
+    "text": "Prosím, čakajte...",
+    "textIfError": "Presmerovanie na úvodnú stránku...",
+    "errorMessage": "Odhlásenie na serveri zlyhalo, ale lokálna relácia bola vymazaná"
+  },
+  "startTestMenu" : {
+    "testInfo" : "Kliknutím na tlačidlo nižšie môžete vygenerovať nový test s 10 náhodnými otázkami.",
+    "startButton" : "Začať"
+  },
+  "repeatedQuestionScreen": {
+    "warningText": "Upozornenie: Tento test obsahuje niektoré opakujúce sa otázky.",
+    "helperText": "Upozorňujeme, že na niektoré z týchto otázok ste už odpovedali.",
+    "continueButton": "Pokračovať"
+  }
+
+
+
+
+}

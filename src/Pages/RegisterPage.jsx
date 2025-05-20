@@ -6,6 +6,7 @@ import { Button } from "primereact/button";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import "../Styles/AuthPages.css";
+import { useTranslation } from 'react-i18next';
 
 export default function RegisterPage() {
   const [name, setName] = useState("");
@@ -16,6 +17,7 @@ export default function RegisterPage() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const [language, setLanguage] = useState("en");
+  const { t, i18n } = useTranslation();
 
   const API = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000/api";
 
@@ -25,7 +27,7 @@ export default function RegisterPage() {
     setError("");
 
     if (password !== passwordConfirm) {
-      setError("Passwords don't match");
+      setError(t('registration.passwordNotMatch'));
       setLoading(false);
       return;
     }
@@ -47,7 +49,7 @@ export default function RegisterPage() {
       } else {
         // Otherwise redirect to login page
         navigate("/login", {
-          state: { message: "Registration successful! Please login." }
+          state: { message: t('registration.successMessage') }
         });
       }
     } catch (err) {
@@ -60,7 +62,7 @@ export default function RegisterPage() {
       } else {
         setError(
           err.response?.data?.message ||
-          "Registration failed. Please try again."
+            t('registration.errorMessage')
         );
       }
     } finally {
@@ -70,12 +72,12 @@ export default function RegisterPage() {
 
   return (
     <div className="auth-container">
-      <Card title="Register" className="auth-card">
+      <Card title={t('registration.operation')} className="auth-card">
         <form onSubmit={handleRegister}>
           {error && <div className="error-message">{error}</div>}
 
           <div className="field">
-            <label htmlFor="name">Name</label>
+            <label htmlFor="name">{t('registration.name')}</label>
             <InputText
                 id="name"
                 value={name}
@@ -86,7 +88,7 @@ export default function RegisterPage() {
           </div>
 
           <div className="field">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">{t('registration.email')}</label>
             <InputText
                 id="email"
                 type="email"
@@ -98,7 +100,7 @@ export default function RegisterPage() {
           </div>
 
           <div className="field">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">{t('registration.password')}</label>
             <Password
                 id="password"
                 value={password}
@@ -106,11 +108,16 @@ export default function RegisterPage() {
                 toggleMask
                 required
                 className="w-100"
+                feedback={true}
+                promptLabel={t('registration.enterPassword')}
+                weakLabel={t('registration.passwordStrength.weak')}
+                mediumLabel={t('registration.passwordStrength.medium')}
+                strongLabel={t('registration.passwordStrength.strong')}
             />
           </div>
 
           <div className="field">
-            <label htmlFor="passwordConfirm">Confirm Password</label>
+            <label htmlFor="passwordConfirm">{t('registration.confirmPassword')}</label>
             <Password
                 id="passwordConfirm"
                 value={passwordConfirm}
@@ -122,7 +129,7 @@ export default function RegisterPage() {
             />
           </div>
           <div className="field">
-            <label htmlFor="language">Language</label>
+            <label htmlFor="language">{t('registration.language.name')}</label>
             <select
                 id="language"
                 value={language}
@@ -130,20 +137,20 @@ export default function RegisterPage() {
                 className="w-100"
                 style={{padding: '0.5rem', borderRadius: '4px', border: '1px solid #ced4da'}}
             >
-              <option value="en">English</option>
-              <option value="sk">Slovak</option>
+              <option value="en">{t('registration.language.english')}</option>
+              <option value="sk">{t('registration.language.slovak')}</option>
             </select>
           </div>
 
           <Button
               type="submit"
-              label={loading ? "Registering..." : "Register"}
+              label={loading ? t('registration.registering') : t('registration.register')}
               disabled={loading}
               className="auth-button"
           />
 
           <div className="auth-footer">
-            Already have an account? <Link to="/login">Login</Link>
+            {t('registration.additionalLabel')} <Link to="/login"> {t('menu.authButtons.login')}</Link>
           </div>
         </form>
       </Card>

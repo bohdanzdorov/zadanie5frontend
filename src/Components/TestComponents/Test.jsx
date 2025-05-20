@@ -1,8 +1,11 @@
 import {useEffect, useRef, useState} from "react";
 import {TestQuestionPanel} from "./TestQuestionPanel/TestQuestionPanel.jsx";
 import {RepeatedQuestionScreen} from "./RepeatedQuestionScreen.jsx";
+import {useTranslation} from "react-i18next";
 
 export const Test = ({test, setResultPhase}) => {
+    const { t, i18n } = useTranslation();
+
     const [curQuestionNum, setCurQuestionNum] = useState(0)
     const [curAnswer, setCurAnswer] = useState("")
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -69,7 +72,7 @@ export const Test = ({test, setResultPhase}) => {
                 <TestQuestionPanel
                     answer={curAnswer}
                     setAnswer={setCurAnswer}
-                    question={test.questions[curQuestionNum].question_text_en}
+                    question={test.questions[curQuestionNum].question_text_i18n[i18n.language]}
                     questionType={test.questions[curQuestionNum].type}
                     onNext={handleNextButtonPress}
                     options={test.questions[curQuestionNum].options}

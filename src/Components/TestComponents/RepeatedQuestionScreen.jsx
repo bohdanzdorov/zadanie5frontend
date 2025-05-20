@@ -1,11 +1,14 @@
 import React from "react";
+import {useTranslation} from "react-i18next";
 
 export const RepeatedQuestionScreen = ({proceedToTest}) => {
+    const { t, i18n } = useTranslation();
+
     return (
         <div className="test-panel">
-            <h2>Warning: This test contains some repeated questions.</h2>
-            <p>Please note that you have already answered to some of the questions in this test.</p>
-            <button className="next-btn" onClick={proceedToTest}>Continue</button>
+            <h2>{t('repeatedQuestionScreen.warningText')}</h2>
+            <p>{t('repeatedQuestionScreen.helperText')}</p>
+            <button className="next-btn" onClick={proceedToTest}>{t('repeatedQuestionScreen.continueButton')}</button>
         </div>
     )
 }

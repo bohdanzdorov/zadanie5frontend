@@ -1,0 +1,69 @@
+{
+  "menu" :
+  {
+      "title" : "Math Genius",
+      "authButtons" : {
+        "login" : "Log In",
+        "logout" : " Log Out",
+        "register" : "Register"
+      },
+     "centerMenu" : {
+        "title" : "On the way to STU",
+        "buttons" : {
+          "adminDashboard" : "Admin Dashboard",
+          "testHistory" : "Test History",
+          "downloadManual" : "Download Manual",
+          "newTest" : "New Test",
+          "profile" : "Profile",
+          "apiDocumentation" : "API Documentation",
+          "tryTest" : "Try Test"
+        }
+     }
+  },
+  "registration" : {
+    "operation" : "Registration",
+    "name" : "Name",
+    "email" : "Email",
+    "password" : "Password",
+    "enterPassword": "Enter Password",
+    "passwordStrength" : {
+      "weak" : "Weak",
+      "medium" : "Medium",
+      "strong" : "Strong"
+    },
+    "confirmPassword" : "Confirm Password",
+    "language" : {
+      "name" : "Language",
+      "english" : "English",
+      "slovak" : "Slovak"
+    },
+    "register" : "Register",
+    "registering" : "Registering...",
+    "additionalLabel" : "Already have an account?",
+    "successMessage" : "Registration successful! Please login.",
+    "errorMessage" : "Registration failed. Please try again.",
+    "passwordNotMatch" : "Passwords don't match"
+  },
+  "login" : {
+    "operation" : "Log In",
+    "login" : "Log In",
+    "loggingIn" : "Logging In...",
+    "additionalLabel" : "Don't have an account?",
+    "errorMessage" : "Login failed. Please check your credentials."
+  },
+  "logout" : {
+    "operation" : "Logging Out",
+    "text" : "Please wait...",
+    "textIfError" : "Redirecting to home page...",
+    "errorMessage" : "Logout failed on server but local session cleared"
+  },
+  "startTestMenu" : {
+    "testInfo" : "You can generate new test with 10 random questions by clicking the button below.",
+    "startButton" : "Start"
+  },
+  "repeatedQuestionScreen" : {
+    "warningText" : "Warning: This test contains some repeated questions.",
+    "helperText" : "Please note that you have already answered to some of the questions in this test.",
+    "continueButton" : "Continue"
+  }
+}

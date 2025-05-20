@@ -5,10 +5,13 @@ import boyWithMath from '../assets/boy_with_math.png';
 import bulb from '../assets/bulb.png';
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
+import { useTranslation } from 'react-i18next';
 
 export const CenterMenu = () => {
     const [userState, setUserState] = useState("guest");
     const navigate = useNavigate();
+
+    const { t, i18n } = useTranslation();
 
     useEffect(() => {
         // Check if user is logged in and their role
@@ -61,33 +64,31 @@ export const CenterMenu = () => {
             case "admin":
                 return (
                     <>
-                        <Button className="button" onClick={handleAdminDashboard} label="Admin Dashboard"
+                        <Button className="button" onClick={handleAdminDashboard} label={t('menu.centerMenu.buttons.adminDashboard')}
                                 icon="pi pi-cog"/>
-                        <Button className="button" onClick={handleHistory} label="Test History" icon="pi pi-history"/>
-                        <Button className="button" onClick={downloadManual} label="Download Manual"
-                                icon="pi pi-download"/>
+                        <Button className="button" onClick={handleHistory} label={t('menu.centerMenu.buttons.testHistory')} icon="pi pi-history"/>
+                        <Button className="button" onClick={downloadManual} label={t('menu.centerMenu.buttons.downloadManual')}
+                                icon="pi pi-info-circle"/>
                     </>
                 );
             case "user":
                 return (
                     <>
-                        <Button className="button" onClick={handleStartTest} label="New Test" icon="pi pi-play"/>
-                        <Button className="button" onClick={handleProfile} label="Profile" icon="pi pi-user"/>
-                        <Button className="button" label="Info" icon="pi pi-info-circle"/>
-                        <Button className="button" label="API Documentation" icon="pi pi-history"/>
-                        <Button className="button" onClick={downloadManual} label="Download Manual"
-                                icon="pi pi-download"/>
+                        <Button className="button" onClick={handleStartTest} label={t('menu.centerMenu.buttons.newTest')} icon="pi pi-play"/>
+                        <Button className="button" onClick={handleProfile} label={t('menu.centerMenu.buttons.profile')} icon="pi pi-user"/>
+                        <Button className="button" label={t('menu.centerMenu.buttons.apiDocumentation')} icon="pi pi-history"/>
+                        <Button className="button" onClick={downloadManual} label={t('menu.centerMenu.buttons.downloadManual')}
+                                icon="pi pi-info-circle"/>
                     </>
                 );
             default: // guest
                 return (
                     <>
-                        <Button className="button" onClick={handleStartTest} label="Try a Test" icon="pi pi-play"/>
-                        <Button className="button" onClick={handleLogin} label="Log In" icon="pi pi-sign-in"/>
-                        <Button className="button" onClick={handleRegister} label="Register" icon="pi pi-user-plus"/>
-                        <Button className="button" label="Info" icon="pi pi-info-circle"/>
-                        <Button className="button" onClick={downloadManual} label="Download Manual"
-                                icon="pi pi-download"/>
+                        <Button className="button" onClick={handleStartTest} label={t('menu.centerMenu.buttons.tryTest')} icon="pi pi-play"/>
+                        {/*<Button className="button" onClick={handleLogin} label="Log In" icon="pi pi-sign-in"/>*/}
+                        {/*<Button className="button" onClick={handleRegister} label="Register" icon="pi pi-user-plus"/>*/}
+                        <Button className="button" onClick={downloadManual} label={t('menu.centerMenu.buttons.downloadManual')}
+                                icon="pi pi-info-circle"/>
                     </>
                 );
         }
@@ -96,7 +97,7 @@ export const CenterMenu = () => {
     return (
         <>
             <Card className="card"
-                  title={<span>Welcome to Your Nerd Classes <img src={bulb} alt="Bulb" style={{width: "5%"}}/></span>}>
+                  title={<span>{t('menu.centerMenu.title')} <img src={bulb} alt="Bulb" style={{width: "5%"}}/></span>}>
                 <div className="menu-container">
                     {renderMenuButtons()}
                 </div>
