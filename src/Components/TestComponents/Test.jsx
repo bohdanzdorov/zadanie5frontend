@@ -22,17 +22,20 @@ export const Test = ({test, setResultPhase}) => {
         startTimeRef.current = Date.now();
     }, [curQuestionNum]);
 
-    const handleNextButtonPress = async () =>{
+    const handleNextButtonPress = async () => {
         setIsSubmitting(true);
 
         const elapsedMs = Date.now() - startTimeRef.current;
         const time_spent = Math.floor(elapsedMs / 1000); // seconds
+
+        const curToken = localStorage.getItem("token")
 
         try {
             const res = await fetch("http://127.0.0.1:8000/answer", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    'Authorization': `Bearer ${curToken}`,
                 },
                 body: JSON.stringify({
                     test_id: test.test_id,
@@ -41,20 +44,20 @@ export const Test = ({test, setResultPhase}) => {
                     answer: curAnswer,
                 }),
             });
-            if (!res.ok) {
-                const msg = await res.text();
-                throw new Error(msg || "Failed to submit answer");
-            }
             const data = await res.json();
-            console.log("Answer saved:", data);
-            setCurQuestionNum((prev) => {
-                if (prev + 1 === test.questions.length) {
-                    setResultPhase();
-                    return prev;
-                }
-                return prev + 1;
-            });
-            setCurAnswer("");
+            if (data.success === true) {
+                console.log("Answer saved:", data);
+                setCurQuestionNum((prev) => {
+                    if (prev + 1 === test.questions.length) {
+                        setResultPhase();
+                        return prev;
+                    }
+                    return prev + 1;
+                });
+                setCurAnswer("");
+            }else{
+                console.log(data.message)
+            }
         } catch (err) {
             console.error("submitAnswer error:", err);
             alert(t('test.errorMessage'));
@@ -68,7 +71,7 @@ export const Test = ({test, setResultPhase}) => {
         <>
             {/* Display a warning if the test is not new */}
             {!isNewQuestions ? (
-                <RepeatedQuestionScreen proceedToTest={()=>setIsNewQuestions(true)}/>
+                <RepeatedQuestionScreen proceedToTest={() => setIsNewQuestions(true)}/>
             ) : (
                 <TestQuestionPanel
                     answer={curAnswer}

@@ -76,8 +76,8 @@ export const TestResultsMenu = ({ testResult }) => {
                         </div>
                         {expandedIndex === index && (
                             <div className="expanded-info">
-                                <p><strong>{t('testResultMenu.expandedResult.field')}:</strong> { i18n.language === "en" ? formatFields(el.questions.fields).fields_en : formatFields(el.questions.fields).fields_sk}</p>
-                                <p><strong>{t('testResultMenu.expandedResult.correctAnswer')}:</strong> {i18n.language === "en" ? el.questions.right_answer_en : el.questions.right_answer_sk}</p>
+                                <p><strong>{t('testResultMenu.expandedResult.field')}:</strong> {i18n.language === "en" ? formatFields(el.questions.fields).fields_en : formatFields(el.questions.fields).fields_sk}</p>
+                                <div><strong>{t('testResultMenu.expandedResult.correctAnswer')}:</strong><MathText text={i18n.language === "en" ? el.questions.right_answer_en : el.questions.right_answer_sk}/></div>
                                 <p><strong>{t('testResultMenu.expandedResult.yourTime')}:</strong> {formatSeconds(Math.round(el.time_spent_seconds))}</p>
                                 <p><strong>{t('testResultMenu.expandedResult.averageTime')}:</strong> {formatSeconds(Math.round(el.average_time))}</p>
                             </div>
