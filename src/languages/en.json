@@ -130,6 +130,72 @@
       "profileUpdate" : "Profile updated successfully",
       "passwordChange" : "Password changed successfully"
     }
+  },
 
+  "adminProfilePage" : {
+    "roles" : {
+      "title" : "Role",
+      "selectText" : "Select Role",
+      "guest" : "Guest",
+      "user" : "User",
+      "admin" : "Admin"
+    },
+    "title" : "Admin Control Panel",
+    "description" : "Welcome to the admin control panel. Here you can manage users in the system.",
+    "noUsersFound" : "No users found.",
+    "editDialog" : {
+      "edit" : "Edit User",
+      "new" : "New User",
+      "languageSelectText" : "Select Language"
+    },
+    "passwordAdditionalInfo" : "Password (leave empty to keep current)",
+    "deleteDialog" : {
+      "header" : "Confirm",
+      "deleteTextInfo" : "Are you sure you want to delete"
+    },
+    "usersTable" : {
+      "loadingTests" : "Loading tests...",
+      "emptyTests" : "No tests found for this user.",
+      "questions" : "Questions"
+    },
+    "actionBodyTemplate" : {
+      "view" : "View Tests",
+      "edit" : "Edit",
+      "delete" : "Delete"
+    },
+    "header" : {
+      "title" : "Manage Users",
+      "searchText" : "Search...",
+      "filterText" : "Filter by role",
+      "button" : "New"
+    },
+    "userDialogFooter" : {
+      "cancelButton" : "Cancel",
+      "saveButton" : "Save"
+    },
+    "deleteUserDialog" : {
+      "yes" : "Yes",
+      "no" : "no"
+    },
+    "errorMessage" : {
+      "summary" : "Error",
+      "errorLoadUsers" : "Failed to load users",
+      "errorLoadUserTests" : "Failed to load user tests",
+      "errorSaveUser" : "Failed to save user",
+      "errorDeleteUser" : "Failed to delete user"
+    },
+    "successMessage" : {
+      "summary" : "Success",
+      "updatedUser" : "User updated",
+      "createdUser" : "User created",
+      "deleteUser" : "'User deleted'"
+    },
+    "requiredFields" : {
+      "name" : "Name is required.",
+      "email" : "Email is required.",
+      "password" : "Password is required for new users.",
+      "role" : "Role is required.",
+      "language" : "Language is required."
+    }
   }
 }

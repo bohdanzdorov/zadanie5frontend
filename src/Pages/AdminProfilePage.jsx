@@ -14,8 +14,11 @@ import {Tag} from "primereact/tag";
 import {useRef} from "react";
 import axios from "axios";
 import "../Styles/AuthPages.css";
+import {useTranslation} from "react-i18next";
 
 export default function AdminProfilePage() {
+    const { t, i18n } = useTranslation();
+
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [totalRecords, setTotalRecords] = useState(0);
@@ -41,14 +44,14 @@ export default function AdminProfilePage() {
     const API = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000/api";
 
     const roleOptions = [
-        {label: 'Guest', value: 'guest'},
-        {label: 'User', value: 'user'},
-        {label: 'Admin', value: 'admin'}
+        {label: "Guest", value: 'guest'},
+        {label: "User", value: 'user'},
+        {label: "Admin", value: 'admin'}
     ];
 
     const languageOptions = [
-        {label: 'English', value: 'en'},
-        {label: 'Slovak', value: 'sk'}
+        {label: t('registration.language.english'), value: 'en'},
+        {label: t('registration.language.slovak'), value: 'sk'}
     ];
 
     useEffect(() => {
@@ -93,7 +96,7 @@ export default function AdminProfilePage() {
                 localStorage.removeItem("role");
                 navigate("/login", {replace: true});
             }
-            toast.current.show({severity: 'error', summary: 'Error', detail: 'Failed to load users', life: 3000});
+            toast.current.show({severity: 'error', summary: t('adminProfilePage.errorMessage.summary'), detail: t('adminProfilePage.errorMessage.errorLoadUsers'), life: 3000});
         } finally {
             setLoading(false);
         }
@@ -134,8 +137,8 @@ export default function AdminProfilePage() {
             console.error("Error loading user tests:", err);
             toast.current.show({
                 severity: 'error',
-                summary: 'Error',
-                detail: 'Failed to load user tests',
+                summary: t('adminProfilePage.errorMessage.summary'),
+                detail: t('adminProfilePage.errorMessage.errorLoadUserTests'),
                 life: 3000
             });
         } finally {
@@ -201,14 +204,14 @@ export default function AdminProfilePage() {
                         headers: {Authorization: `Bearer ${token}`}
                     });
 
-                    toast.current.show({severity: 'success', summary: 'Success', detail: 'User updated', life: 3000});
+                    toast.current.show({severity: 'success', summary: t('adminProfilePage.successMessage.summary'), detail: t('adminProfilePage.successMessage.updatedUser'), life: 3000});
                 } else {
                     // Create new user
                     await axios.post(`${API}/admin/users`, user, {
                         headers: {Authorization: `Bearer ${token}`}
                     });
 
-                    toast.current.show({severity: 'success', summary: 'Success', detail: 'User created', life: 3000});
+                    toast.current.show({severity: 'success', summary: t('adminProfilePage.successMessage.summary'), detail: t('adminProfilePage.successMessage.createdUser'), life: 3000});
                 }
 
                 hideDialog();
@@ -222,8 +225,8 @@ export default function AdminProfilePage() {
                 } else {
                     toast.current.show({
                         severity: 'error',
-                        summary: 'Error',
-                        detail: err.response?.data?.message || 'Failed to save user',
+                        summary: t('adminProfilePage.errorMessage.summary'),
+                        detail: err.response?.data?.message || t('adminProfilePage.errorMessage.errorSaveUser'),
                         life: 3000
                     });
                 }
@@ -255,15 +258,15 @@ export default function AdminProfilePage() {
                 headers: {Authorization: `Bearer ${token}`}
             });
 
-            toast.current.show({severity: 'success', summary: 'Success', detail: 'User deleted', life: 3000});
+            toast.current.show({severity: 'success', summary: t('adminProfilePage.successMessage.summary'), detail: t('adminProfilePage.successMessage.deleteUser'), life: 3000});
             setDeleteUserDialog(false);
             loadUsers();
         } catch (err) {
             console.error('Error deleting user:', err);
             toast.current.show({
                 severity: 'error',
-                summary: 'Error',
-                detail: err.response?.data?.message || 'Failed to delete user',
+                summary: t('adminProfilePage.errorMessage.summary'),
+                detail: err.response?.data?.message || t('adminProfilePage.errorMessage.errorDeleteUser'),
                 life: 3000
             });
         }
@@ -304,14 +307,14 @@ export default function AdminProfilePage() {
                     rounded outlined
                     severity="info"
                     onClick={() => viewUserTests(rowData)}
-                    tooltip="View Tests"
+                    tooltip={t('adminProfilePage.actionBodyTemplate.view')}
                     tooltipOptions={{position: 'bottom'}}
                 />
                 <Button
                     icon="pi pi-pencil"
                     rounded outlined
                     onClick={() => editUser(rowData)}
-                    tooltip="Edit"
+                    tooltip={t('adminProfilePage.actionBodyTemplate.edit')}
                     tooltipOptions={{position: 'bottom'}}
                 />
                 <Button
@@ -319,7 +322,7 @@ export default function AdminProfilePage() {
                     rounded outlined
                     severity="danger"
                     onClick={() => confirmDeleteUser(rowData)}
-                    tooltip="Delete"
+                    tooltip={t('adminProfilePage.actionBodyTemplate.delete')}
                     tooltipOptions={{position: 'bottom'}}
                 />
             </div>
@@ -341,10 +344,10 @@ export default function AdminProfilePage() {
 
     const header = (
         <div className="flex flex-wrap justify-content-between align-items-center gap-2">
-            <h3 className="m-0">Manage Users</h3>
+            <h3 className="m-0">{t('adminProfilePage.header.title')}</h3>
             <div className="flex gap-2">
                 <InputText
-                    placeholder="Search..."
+                    placeholder={t('adminProfilePage.header.searchText')}
                     value={lazyState.search}
                     onChange={onFilter}
                 />
@@ -352,26 +355,26 @@ export default function AdminProfilePage() {
                     value={lazyState.role}
                     options={roleOptions}
                     onChange={onRoleFilter}
-                    placeholder="Filter by role"
+                    placeholder={t('adminProfilePage.header.filterText')}
                     className="w-full md:w-14rem"
                     showClear
                 />
-                <Button label="New" icon="pi pi-plus" onClick={openNew}/>
+                <Button label={t('adminProfilePage.header.button')} icon="pi pi-plus" onClick={openNew}/>
             </div>
         </div>
     );
 
     const userDialogFooter = (
         <Fragment>
-            <Button label="Cancel" icon="pi pi-times" outlined onClick={hideDialog}/>
-            <Button label="Save" icon="pi pi-check" onClick={saveUser}/>
+            <Button label={t('adminProfilePage.userDialogFooter.cancelButton')} icon="pi pi-times" outlined onClick={hideDialog}/>
+            <Button label={t('adminProfilePage.userDialogFooter.saveButton')} icon="pi pi-check" onClick={saveUser}/>
         </Fragment>
     );
 
     const deleteUserDialogFooter = (
         <Fragment>
-            <Button label="No" icon="pi pi-times" outlined onClick={hideDeleteUserDialog}/>
-            <Button label="Yes" icon="pi pi-check" severity="danger" onClick={deleteUser}/>
+            <Button label={t('adminProfilePage.deleteUserDialog.no')} icon="pi pi-times" outlined onClick={hideDeleteUserDialog}/>
+            <Button label={t('adminProfilePage.deleteUserDialog.yes')} icon="pi pi-check" severity="danger" onClick={deleteUser}/>
         </Fragment>
     );
 
@@ -379,8 +382,8 @@ export default function AdminProfilePage() {
         <div className="admin-container" style={{padding: '2rem', width: '80%', margin: '0 auto'}}>
             <Toast ref={toast}/>
 
-            <Card title="Admin Control Panel" style={{marginBottom: '2rem'}}>
-                <p>Welcome to the admin control panel. Here you can manage users in the system.</p>
+            <Card title={t('adminProfilePage.title')} style={{marginBottom: '2rem'}}>
+                <p>{t('adminProfilePage.description')}</p>
             </Card>
 
             <Card>
@@ -396,14 +399,14 @@ export default function AdminProfilePage() {
                     onPage={onPage}
                     loading={loading}
                     header={header}
-                    emptyMessage="No users found."
+                    emptyMessage={t('adminProfilePage.noUsersFound')}
                     style={{width: '100%'}}
                 >
                     <Column field="id" header="ID" sortable style={{width: '5%'}}></Column>
-                    <Column field="name" header="Name" sortable style={{width: '20%'}}></Column>
-                    <Column field="email" header="Email" sortable style={{width: '30%'}}></Column>
-                    <Column field="role" header="Role" sortable style={{width: '15%'}}></Column>
-                    <Column field="language" header="Language" sortable style={{width: '15%'}}></Column>
+                    <Column field="name" header={t('registration.name')} sortable style={{width: '20%'}}></Column>
+                    <Column field="email" header={t('registration.email')} sortable style={{width: '30%'}}></Column>
+                    <Column field="role" header={t('adminProfilePage.roles.title')} sortable style={{width: '15%'}}></Column>
+                    <Column field="language" header={t('registration.language.name')} sortable style={{width: '15%'}}></Column>
                     <Column body={actionBodyTemplate} exportable={false} style={{width: '15%'}}></Column>
                 </DataTable>
             </Card>
@@ -412,14 +415,14 @@ export default function AdminProfilePage() {
             <Dialog
                 visible={userDialog}
                 style={{width: '500px'}}
-                header={user?.id ? "Edit User" : "New User"}
+                header={user?.id ? t('adminProfilePage.editDialog.edit') : t('adminProfilePage.editDialog.new')}
                 modal
                 className="p-fluid"
                 footer={userDialogFooter}
                 onHide={hideDialog}
             >
                 <div className="field">
-                    <label htmlFor="name">Name</label>
+                    <label htmlFor="name">{t('registration.name')}</label>
                     <InputText
                         id="name"
                         value={user?.name}
@@ -427,11 +430,11 @@ export default function AdminProfilePage() {
                         required
                         className={submitted && !user?.name ? 'p-invalid' : ''}
                     />
-                    {submitted && !user?.name && <small className="p-error">Name is required.</small>}
+                    {submitted && !user?.name && <small className="p-error">{t('adminProfilePage.requiredFields.name')}</small>}
                 </div>
 
                 <div className="field">
-                    <label htmlFor="email">Email</label>
+                    <label htmlFor="email">{t('registration.email')}</label>
                     <InputText
                         id="email"
                         value={user?.email}
@@ -439,55 +442,60 @@ export default function AdminProfilePage() {
                         required
                         className={submitted && !user?.email ? 'p-invalid' : ''}
                     />
-                    {submitted && !user?.email && <small className="p-error">Email is required.</small>}
+                    {submitted && !user?.email && <small className="p-error">{t('adminProfilePage.requiredFields.email')}</small>}
                 </div>
 
                 <div className="field">
-                    <label htmlFor="password">{user?.id ? "Password (leave empty to keep current)" : "Password"}</label>
+                    <label htmlFor="password">{user?.id ? t('adminProfilePage.passwordAdditionalInfo') : t('registration.password')}</label>
                     <Password
                         id="password"
                         value={user?.password}
                         onChange={(e) => setUser(prev => ({...prev, password: e.target.value}))}
                         toggleMask
                         className={submitted && !user?.password && !user?.id ? 'p-invalid' : ''}
+                        feedback={true}
+                        promptLabel={t('registration.enterPassword')}
+                        weakLabel={t('registration.passwordStrength.weak')}
+                        mediumLabel={t('registration.passwordStrength.medium')}
+                        strongLabel={t('registration.passwordStrength.strong')}
                     />
                     {submitted && !user?.password && !user?.id &&
-                        <small className="p-error">Password is required for new users.</small>}
+                        <small className="p-error">{t('adminProfilePage.requiredFields.password')}</small>}
                 </div>
 
                 <div className="field">
-                    <label htmlFor="role">Role</label>
+                    <label htmlFor="role">{t('adminProfilePage.roles.title')}</label>
                     <Dropdown
                         id="role"
                         value={user?.role}
                         options={roleOptions}
                         onChange={(e) => setUser(prev => ({...prev, role: e.value}))}
-                        placeholder="Select Role"
+                        placeholder={t('adminProfilePage.roles.selectText')}
                         required
                         className={submitted && !user?.role ? 'p-invalid' : ''}
                     />
-                    {submitted && !user?.role && <small className="p-error">Role is required.</small>}
+                    {submitted && !user?.role && <small className="p-error">{t('adminProfilePage.requiredFields.role')}</small>}
                 </div>
 
                 <div className="field">
-                    <label htmlFor="language">Language</label>
+                    <label htmlFor="language">{t('registration.language.name')}</label>
                     <Dropdown
                         id="language"
                         value={user?.language}
                         options={languageOptions}
                         onChange={(e) => setUser(prev => ({...prev, language: e.value}))}
-                        placeholder="Select Language"
+                        placeholder={t('adminProfilePage.editDialog.languageSelectText')}
                         required
                         className={submitted && !user?.language ? 'p-invalid' : ''}
                     />
-                    {submitted && !user?.language && <small className="p-error">Language is required.</small>}
+                    {submitted && !user?.language && <small className="p-error">{t('adminProfilePage.requiredFields.language')}</small>}
                 </div>
             </Dialog>
 
             <Dialog
                 visible={deleteUserDialog}
                 style={{width: '450px'}}
-                header="Confirm"
+                header={t('adminProfilePage.deleteDialog.header')}
                 modal
                 footer={deleteUserDialogFooter}
                 onHide={hideDeleteUserDialog}
@@ -496,24 +504,24 @@ export default function AdminProfilePage() {
                     <i className="pi pi-exclamation-triangle"
                        style={{fontSize: '2rem', color: 'var(--red-500)', marginRight: '1rem'}}/>
                     <span>
-            Are you sure you want to delete <b>{user?.name}</b>?
+            {t('adminProfilePage.deleteDialog.deleteTextInfo')} <b>{user?.name}</b>?
           </span>
                 </div>
             </Dialog>
             <Dialog
                 visible={userTestsDialog}
                 style={{width: '80%'}}
-                header={`${user?.name}'s Tests`}
+                header={i18n.language === "en" ? `${user?.name}'s Tests` : `Testy ${user?.name}`}
                 modal
                 className="p-fluid"
                 onHide={hideUserTestsDialog}
             >
                 {testsLoading ? (
-                    <p>Loading tests...</p>
+                    <p>{t('adminProfilePage.usersTable.loadingTests')}</p>
                 ) : (
                     <DataTable
                         value={userTests}
-                        emptyMessage="No tests found for this user."
+                        emptyMessage={t('adminProfilePage.usersTable.emptyTests')}
                         paginator
                         rows={5}
                         rowsPerPageOptions={[5, 10]}
@@ -521,13 +529,13 @@ export default function AdminProfilePage() {
                         <Column field="id" header="ID" style={{width: '5%'}}></Column>
                         <Column
                             field="created_at"
-                            header="Date"
+                            header={t('profilePage.testsHistory.table.date')}
                             body={(rowData) => formatDate(rowData.created_at)}
                             style={{width: '15%'}}
                         ></Column>
                         <Column
                             field="location"
-                            header="Location"
+                            header={t('registration.language.name')}
                             body={(rowData) => rowData.location ?
                                 `${rowData.location.city?.en || 'Unknown'}, ${rowData.location.country?.en || 'Unknown'}` :
                                 'Unknown'
@@ -536,17 +544,17 @@ export default function AdminProfilePage() {
                         ></Column>
                         <Column
                             field="total_questions"
-                            header="Questions"
+                            header={t('adminProfilePage.usersTable.questions')}
                             style={{width: '10%'}}
                         ></Column>
                         <Column
                             field="correct_answers"
-                            header="Correct"
+                            header={t('profilePage.testsHistory.table.correct')}
                             style={{width: '10%'}}
                         ></Column>
                         <Column
                             field="accuracy_percent"
-                            header="Score"
+                            header={t('profilePage.testsHistory.table.total')}
                             body={(rowData) => (
                                 <Tag
                                     value={`${rowData.accuracy_percent}%`}
@@ -558,7 +566,7 @@ export default function AdminProfilePage() {
                         ></Column>
                         <Column
                             field="total_time_spent"
-                            header="Time Spent"
+                            header={t('testResultMenu.timeSpent')}
                             body={(rowData) => formatTimeSpent(rowData.total_time_spent)}
                             style={{width: '15%'}}
                         ></Column>

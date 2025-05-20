@@ -128,6 +128,71 @@
       "profileUpdate": "Profil bol úspešne aktualizovaný",
       "passwordChange": "Heslo bolo úspešne zmenené"
     }
-
+  },
+  "adminProfilePage": {
+    "roles": {
+      "title": "Roly",
+      "selectText": "Vyberte rolu",
+      "guest": "Hosť",
+      "user": "Používateľ",
+      "admin": "Administrátor"
+    },
+    "title": "Administračný panel",
+    "description": "Vitajte v administračnom paneli. Tu môžete spravovať používateľov v systéme.",
+    "noUsersFound": "Neboli nájdení žiadni používatelia.",
+    "editDialog": {
+      "edit": "Upraviť používateľa",
+      "new": "Nový používateľ",
+      "languageSelectText": "Vyberte jazyk"
+    },
+    "passwordAdditionalInfo": "Heslo (ponechajte prázdne, ak nechcete zmeniť)",
+    "deleteDialog": {
+      "header": "Potvrdenie",
+      "deleteTextInfo": "Naozaj chcete odstrániť"
+    },
+    "usersTable": {
+      "loadingTests": "Načítavajú sa testy...",
+      "emptyTests": "Pre tohto používateľa neboli nájdené žiadne testy.",
+      "questions": "Otázky"
+    },
+    "actionBodyTemplate": {
+      "view": "Zobraziť testy",
+      "edit": "Upraviť",
+      "delete": "Odstrániť"
+    },
+    "header": {
+      "title": "Spravovať používateľov",
+      "searchText": "Hľadať...",
+      "filterText": "Filtrovať podľa roly",
+      "button": "Nový"
+    },
+    "userDialogFooter": {
+      "cancelButton": "Zrušiť",
+      "saveButton": "Uložiť"
+    },
+    "deleteUserDialog": {
+      "yes": "Áno",
+      "no": "Nie"
+    },
+    "errorMessage": {
+      "summary": "Chyba",
+      "errorLoadUsers": "Nepodarilo sa načítať používateľov",
+      "errorLoadUserTests": "Nepodarilo sa načítať testy používateľa",
+      "errorSaveUser": "Nepodarilo sa uložiť používateľa",
+      "errorDeleteUser": "Nepodarilo sa odstrániť používateľa"
+    },
+    "successMessage": {
+      "summary": "Úspech",
+      "updatedUser": "Používateľ bol aktualizovaný",
+      "createdUser": "Používateľ bol vytvorený",
+      "deleteUser": "Používateľ bol odstránený"
+    },
+    "requiredFields": {
+      "name": "Meno je povinné.",
+      "email": "Email je povinný.",
+      "password": "Heslo je povinné pre nových používateľov.",
+      "role": "Rola je povinná.",
+      "language": "Jazyk je povinný."
+    }
   }
 }
