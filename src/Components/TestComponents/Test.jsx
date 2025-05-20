@@ -1,8 +1,11 @@
 import {useEffect, useRef, useState} from "react";
 import {TestQuestionPanel} from "./TestQuestionPanel/TestQuestionPanel.jsx";
 import {RepeatedQuestionScreen} from "./RepeatedQuestionScreen.jsx";
+import {useTranslation} from "react-i18next";
 
 export const Test = ({test, setResultPhase}) => {
+    const { t, i18n } = useTranslation();
+
     const [curQuestionNum, setCurQuestionNum] = useState(0)
     const [curAnswer, setCurAnswer] = useState("")
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -57,11 +60,12 @@ export const Test = ({test, setResultPhase}) => {
             }
         } catch (err) {
             console.error("submitAnswer error:", err);
-            alert("Something went wrong. Please try again.");
+            alert(t('test.errorMessage'));
         } finally {
             setIsSubmitting(false);
         }
     }
+
 
     return (
         <>
@@ -72,7 +76,7 @@ export const Test = ({test, setResultPhase}) => {
                 <TestQuestionPanel
                     answer={curAnswer}
                     setAnswer={setCurAnswer}
-                    question={test.questions[curQuestionNum].question_text_en}
+                    question={i18n.language === "en" ? test.questions[curQuestionNum].question_text_en : test.questions[curQuestionNum].question_text_sk}
                     questionType={test.questions[curQuestionNum].type}
                     onNext={handleNextButtonPress}
                     options={test.questions[curQuestionNum].options}

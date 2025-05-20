@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import {Card} from "primereact/card";
 import "../Styles/AuthPages.css";
@@ -8,6 +9,7 @@ export default function LogoutPage() {
     const navigate = useNavigate();
     const [error, setError] = useState('');
     const API = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000/api";
+    const { t, i18n } = useTranslation();
 
     useEffect(() => {
         const performLogout = async () => {
@@ -40,7 +42,7 @@ export default function LogoutPage() {
                 localStorage.removeItem('token');
                 localStorage.removeItem('role');
 
-                setError("Logout failed on server but local session cleared");
+                setError(t('logout.errorMessage'));
 
                 // Redirect after a short delay to show the error
                 setTimeout(() => {
@@ -55,9 +57,9 @@ export default function LogoutPage() {
     if (error) {
         return (
             <div className="auth-container">
-                <Card title="Logging out" className="auth-card">
+                <Card title={t('logout.operation')} className="auth-card">
                     <div className="error-message">{error}</div>
-                    <p>Redirecting to home page...</p>
+                    <p>{t('logout.textIfError')}</p>
                 </Card>
             </div>
         );
@@ -65,8 +67,8 @@ export default function LogoutPage() {
 
     return (
         <div className="auth-container">
-            <Card title="Logging out" className="auth-card">
-                <p>Please wait...</p>
+            <Card title={t('logout.operation')} className="auth-card">
+                <p>{t('logout.text')}</p>
             </Card>
         </div>
     );

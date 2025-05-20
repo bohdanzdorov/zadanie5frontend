@@ -1,0 +1,201 @@
+{
+  "menu" :
+  {
+      "title" : "Math Genius",
+      "authButtons" : {
+        "login" : "Log In",
+        "logout" : " Log Out",
+        "register" : "Register"
+      },
+     "centerMenu" : {
+        "title" : "On the way to STU",
+        "buttons" : {
+          "adminDashboard" : "Admin Dashboard",
+          "testHistory" : "Test History",
+          "downloadManual" : "Download Manual",
+          "newTest" : "New Test",
+          "profile" : "Profile",
+          "apiDocumentation" : "API Documentation",
+          "tryTest" : "Try Test"
+        }
+     }
+  },
+  "registration" : {
+    "operation" : "Registration",
+    "name" : "Name",
+    "email" : "Email",
+    "password" : "Password",
+    "enterPassword": "Enter Password",
+    "passwordStrength" : {
+      "weak" : "Weak",
+      "medium" : "Medium",
+      "strong" : "Strong"
+    },
+    "confirmPassword" : "Confirm Password",
+    "language" : {
+      "name" : "Language",
+      "english" : "English",
+      "slovak" : "Slovak"
+    },
+    "register" : "Register",
+    "registering" : "Registering...",
+    "additionalLabel" : "Already have an account?",
+    "successMessage" : "Registration successful! Please login.",
+    "errorMessage" : "Registration failed. Please try again.",
+    "passwordNotMatch" : "Passwords don't match"
+  },
+  "login" : {
+    "operation" : "Log In",
+    "login" : "Log In",
+    "loggingIn" : "Logging In...",
+    "additionalLabel" : "Don't have an account?",
+    "errorMessage" : "Login failed. Please check your credentials."
+  },
+  "logout" : {
+    "operation" : "Logging Out",
+    "text" : "Please wait...",
+    "textIfError" : "Redirecting to home page...",
+    "errorMessage" : "Logout failed on server but local session cleared"
+  },
+  "test" : {
+    "errorMessage" : "Something went wrong. Please try again."
+  },
+  "startTestMenu" : {
+    "testInfo" : "You can generate new test with 10 random questions by clicking the button below.",
+    "startButton" : "Start"
+  },
+  "repeatedQuestionScreen" : {
+    "warningText" : "Warning: This test contains some repeated questions.",
+    "helperText" : "Please note that you have already answered to some of the questions in this test.",
+    "continueButton" : "Continue"
+  },
+  "OpenEndedAnswerPlaceholder" : "Type your answer here...",
+  "testQuestionPanel" : {
+    "saving" : "Saving...",
+    "endTest" : "End test",
+    "next" : "Next"
+  },
+  "testLoadingScreen" : "Loading...",
+  "testResultMenu" : {
+    "title" : "Test finished",
+    "score" : "Score",
+    "location" : "Location",
+    "timeSpent" : "Time spent",
+    "expandedResult" : {
+      "field" : "Field",
+      "correctAnswer" : "Correct Answer",
+      "yourTime" : "Your Time",
+      "averageTime" : "Average Time"
+    },
+    "exit" : "Exit"
+  },
+
+
+  "profilePage" : {
+    "title" : "My Profile",
+    "updateProfile" : "Update Profile",
+    "historyButton" : {
+      "hide" : "Hide Tests History",
+      "show" : "View Tests History"
+    },
+    "passwordButton" : {
+      "cancel" : "Cancel Password Change",
+      "approve" : "Change Password"
+    },
+    "testsHistory" : {
+      "title" : "My Tests History",
+      "loading" : "Loading tests history...",
+      "notFound" : "No test history found. Complete a test to see your results here.",
+      "table" : {
+        "date" : "Date",
+        "correct" : "Correct",
+        "total" : "Total"
+      }
+    },
+    "passwordForm" : {
+      "currentPassword" : "Current Password",
+      "newPassword" : "New Password",
+      "confirmNewPassword" : "Confirm New Password",
+      "changeButton" : "Change Password"
+    },
+    "loading" : "Loading profile data...",
+    "errorMessages" : {
+      "errorLoadProfile" : "Failed to load profile data",
+      "errorLoadHistory" : "Failed to load test history",
+      "errorUpdateProfile" : "Failed to update profile",
+      "errorPasswordNotMatch" : "New passwords don't match",
+      "errorChangePassword" : "Failed to change password"
+    },
+    "successMessages" : {
+      "profileUpdate" : "Profile updated successfully",
+      "passwordChange" : "Password changed successfully"
+    }
+  },
+
+  "adminProfilePage" : {
+    "roles" : {
+      "title" : "Role",
+      "selectText" : "Select Role",
+      "guest" : "Guest",
+      "user" : "User",
+      "admin" : "Admin"
+    },
+    "title" : "Admin Control Panel",
+    "description" : "Welcome to the admin control panel. Here you can manage users in the system.",
+    "noUsersFound" : "No users found.",
+    "editDialog" : {
+      "edit" : "Edit User",
+      "new" : "New User",
+      "languageSelectText" : "Select Language"
+    },
+    "passwordAdditionalInfo" : "Password (leave empty to keep current)",
+    "deleteDialog" : {
+      "header" : "Confirm",
+      "deleteTextInfo" : "Are you sure you want to delete"
+    },
+    "usersTable" : {
+      "loadingTests" : "Loading tests...",
+      "emptyTests" : "No tests found for this user.",
+      "questions" : "Questions"
+    },
+    "actionBodyTemplate" : {
+      "view" : "View Tests",
+      "edit" : "Edit",
+      "delete" : "Delete"
+    },
+    "header" : {
+      "title" : "Manage Users",
+      "searchText" : "Search...",
+      "filterText" : "Filter by role",
+      "button" : "New"
+    },
+    "userDialogFooter" : {
+      "cancelButton" : "Cancel",
+      "saveButton" : "Save"
+    },
+    "deleteUserDialog" : {
+      "yes" : "Yes",
+      "no" : "no"
+    },
+    "errorMessage" : {
+      "summary" : "Error",
+      "errorLoadUsers" : "Failed to load users",
+      "errorLoadUserTests" : "Failed to load user tests",
+      "errorSaveUser" : "Failed to save user",
+      "errorDeleteUser" : "Failed to delete user"
+    },
+    "successMessage" : {
+      "summary" : "Success",
+      "updatedUser" : "User updated",
+      "createdUser" : "User created",
+      "deleteUser" : "'User deleted'"
+    },
+    "requiredFields" : {
+      "name" : "Name is required.",
+      "email" : "Email is required.",
+      "password" : "Password is required for new users.",
+      "role" : "Role is required.",
+      "language" : "Language is required."
+    }
+  }
+}

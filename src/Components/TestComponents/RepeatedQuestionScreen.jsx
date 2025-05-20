@@ -1,18 +1,21 @@
 import React from "react";
+import {useTranslation} from "react-i18next";
 import "../../Styles/RepeatedQuestionScreen.css"
 import {MathText} from "../MathText.jsx";
 
 export const RepeatedQuestionScreen = ({proceedToTest}) => {
+    const { t, i18n } = useTranslation();
+
     return (
         <div className="test-panel">
             <div className="repeated-warning-content">
-                <h2 className="warning-heading">⚠️ Warning: Repeated Questions</h2>
+                <h2 className="warning-heading">⚠️ {t('repeatedQuestionScreen.warningText')}</h2>
                 <p className="warning-text">
-                  Some of the questions in this test were already answered earlier. Your responses might be used for validation purposes.
+                    {t('repeatedQuestionScreen.helperText')}
                 </p>
             </div>
             <button className="next-btn" onClick={proceedToTest}>
-                Continue
+                {t('repeatedQuestionScreen.continueButton')}
             </button>
         </div>
     )

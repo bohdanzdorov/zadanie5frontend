@@ -11,11 +11,14 @@
   },
   "dependencies": {
     "axios": "^1.9.0",
+    "i18next": "^25.2.0",
+    "i18next-browser-languagedetector": "^8.1.0",
     "katex": "^0.16.22",
     "primeicons": "^7.0.0",
     "primereact": "^10.9.5",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-i18next": "^15.5.1",
     "react-katex": "^3.1.0",
     "react-router-dom": "^7.6.0",
     "recharts": "^2.15.3"

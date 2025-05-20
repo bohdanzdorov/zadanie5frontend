@@ -6,6 +6,8 @@ import { Button } from "primereact/button";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import "../Styles/AuthPages.css";
+import { useTranslation } from 'react-i18next';
+
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -13,6 +15,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
 
   const API = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000/api";
 
@@ -37,7 +40,7 @@ export default function LoginPage() {
       console.error("Login error:", err);
       setError(
         err.response?.data?.message ||
-        "Login failed. Please check your credentials."
+        t('login.errorMessage')
       );
     } finally {
       setLoading(false);
@@ -46,12 +49,12 @@ export default function LoginPage() {
 
   return (
     <div className="auth-container">
-      <Card title="Login" className="auth-card">
+      <Card title={t('login.operation')} className="auth-card">
         <form onSubmit={handleLogin}>
           {error && <div className="error-message">{error}</div>}
 
           <div className="field">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">{t('registration.email')}</label>
             <InputText
               id="email"
               type="email"
@@ -63,7 +66,7 @@ export default function LoginPage() {
           </div>
 
           <div className="field">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">{t('registration.password')}</label>
             <Password
               id="password"
               value={password}
@@ -77,13 +80,13 @@ export default function LoginPage() {
 
           <Button
             type="submit"
-            label={loading ? "Logging in..." : "Login"}
+            label={loading ? t('login.loggingIn') : t('login.login')}
             disabled={loading}
             className="auth-button"
           />
 
           <div className="auth-footer">
-            Don't have an account? <Link to="/register">Register</Link>
+            {t('login.additionalLabel')} <Link to="/register">{t('menu.authButtons.register')}</Link>
           </div>
         </form>
       </Card>

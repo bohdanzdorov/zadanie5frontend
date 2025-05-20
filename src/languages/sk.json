@@ -1,0 +1,198 @@
+{
+  "menu" :
+  {
+    "title" : "Matematický Génius",
+    "authButtons" : {
+      "login" : "Prihlásť sa",
+      "logout" : " Odhlásiť sa",
+      "register" : "Zaregistrovať sa"
+    },
+    "centerMenu" : {
+      "title" : "Na ceste k STU",
+      "buttons" : {
+        "adminDashboard" : "Panel Administratora",
+        "testHistory" : "História testov",
+        "downloadManual" : "Stiahni si príručku",
+        "newTest" : "Nový test",
+        "profile" : "Profil",
+        "apiDocumentation" : "Dokumentácia API",
+        "tryTest" : "Vyskúšaj test"
+      }
+    }
+  },
+  "registration": {
+    "operation": "Registrácia",
+    "name": "Meno",
+    "email": "Email",
+    "password": "Heslo",
+    "enterPassword": "Zadajte heslo",
+    "passwordStrength" : {
+      "weak" : "Slabe",
+      "medium" : "Stredne",
+      "strong" : "Silne"
+    },
+    "confirmPassword": "Potvrď heslo",
+    "language": {
+      "name" : "Jazyk",
+      "english": "Angličtina",
+      "slovak": "Slovenčina"
+    },
+    "register": "Registrovať",
+    "registering" : "Registrujeme...",
+    "additionalLabel": "Už máte účet?",
+    "successMessage" : "Registrácia úspešná! Prihláste sa.",
+    "errorMessage" : "Registrácia zlyhala. Skúste to prosím znova.",
+    "passwordNotMatch" : "Heslá sa nezhodujú"
+  },
+  "login": {
+    "operation": "Prihlásenie",
+    "login": "Prihlásiť sa",
+    "loggingIn": "Prihlasovanie...",
+    "additionalLabel": "Nemáte účet?",
+    "errorMessage": "Prihlásenie zlyhalo. Skontrolujte svoje prihlasovacie údaje."
+  },
+  "logout": {
+    "operation": "Odhlásenie",
+    "text": "Prosím, čakajte...",
+    "textIfError": "Presmerovanie na úvodnú stránku...",
+    "errorMessage": "Odhlásenie na serveri zlyhalo, ale lokálna relácia bola vymazaná"
+  },
+  "test" : {
+    "errorMessage" : "Niečo sa pokazilo. Skúste to prosím znova."
+  },
+  "startTestMenu" : {
+    "testInfo" : "Kliknutím na tlačidlo nižšie môžete vygenerovať nový test s 10 náhodnými otázkami.",
+    "startButton" : "Začať"
+  },
+  "repeatedQuestionScreen": {
+    "warningText": "Upozornenie: Tento test obsahuje niektoré opakujúce sa otázky.",
+    "helperText": "Upozorňujeme, že na niektoré z týchto otázok ste už odpovedali.",
+    "continueButton": "Pokračovať"
+  },
+  "OpenEndedAnswerPlaceholder" : "Tu napíšte svoju odpoveď...",
+  "testQuestionPanel": {
+    "saving": "Ukladanie...",
+    "endTest": "Ukončiť",
+    "next": "Ďalej"
+  },
+  "testLoadingScreen" : "Načítavanie...",
+  "testResultMenu": {
+    "title": "Test dokončený",
+    "score": "Skóre",
+    "location": "Lokalita",
+    "timeSpent": "Strávený čas",
+    "expandedResult": {
+      "field": "Oblasť",
+      "correctAnswer": "Správna odpoveď",
+      "yourTime": "Váš čas",
+      "averageTime": "Priemerný čas"
+    },
+    "exit": "Ukončiť"
+  },
+  "profilePage": {
+    "title": "Môj profil",
+    "updateProfile": "Aktualizovať profil",
+    "historyButton": {
+      "hide": "Skryť históriu testov",
+      "show": "Zobraziť históriu testov"
+    },
+    "passwordButton": {
+      "cancel": "Zrušiť zmenu hesla",
+      "approve": "Zmeniť heslo"
+    },
+    "testsHistory": {
+      "title": "Moja história testov",
+      "loading": "Načítava sa história testov...",
+      "notFound": "Nebola nájdená žiadna história testov. Dokončite test, aby sa tu zobrazili výsledky.",
+      "table": {
+        "date": "Dátum",
+        "correct": "Správne",
+        "total": "Spolu"
+      }
+    },
+    "loading" : "Načítanie údajov profilu...",
+    "passwordForm": {
+      "currentPassword": "Aktuálne heslo",
+      "newPassword": "Nové heslo",
+      "confirmNewPassword": "Potvrdiť nové heslo",
+      "changeButton": "Zmeniť heslo"
+    },
+    "errorMessages": {
+      "errorLoadProfile": "Nepodarilo sa načítať údaje profilu",
+      "errorLoadHistory": "Nepodarilo sa načítať históriu testov",
+      "errorUpdateProfile": "Nepodarilo sa aktualizovať profil",
+      "errorPasswordNotMatch": "Nové heslá sa nezhodujú",
+      "errorChangePassword": "Nepodarilo sa zmeniť heslo"
+    },
+    "successMessages": {
+      "profileUpdate": "Profil bol úspešne aktualizovaný",
+      "passwordChange": "Heslo bolo úspešne zmenené"
+    }
+  },
+  "adminProfilePage": {
+    "roles": {
+      "title": "Roly",
+      "selectText": "Vyberte rolu",
+      "guest": "Hosť",
+      "user": "Používateľ",
+      "admin": "Administrátor"
+    },
+    "title": "Administračný panel",
+    "description": "Vitajte v administračnom paneli. Tu môžete spravovať používateľov v systéme.",
+    "noUsersFound": "Neboli nájdení žiadni používatelia.",
+    "editDialog": {
+      "edit": "Upraviť používateľa",
+      "new": "Nový používateľ",
+      "languageSelectText": "Vyberte jazyk"
+    },
+    "passwordAdditionalInfo": "Heslo (ponechajte prázdne, ak nechcete zmeniť)",
+    "deleteDialog": {
+      "header": "Potvrdenie",
+      "deleteTextInfo": "Naozaj chcete odstrániť"
+    },
+    "usersTable": {
+      "loadingTests": "Načítavajú sa testy...",
+      "emptyTests": "Pre tohto používateľa neboli nájdené žiadne testy.",
+      "questions": "Otázky"
+    },
+    "actionBodyTemplate": {
+      "view": "Zobraziť testy",
+      "edit": "Upraviť",
+      "delete": "Odstrániť"
+    },
+    "header": {
+      "title": "Spravovať používateľov",
+      "searchText": "Hľadať...",
+      "filterText": "Filtrovať podľa roly",
+      "button": "Nový"
+    },
+    "userDialogFooter": {
+      "cancelButton": "Zrušiť",
+      "saveButton": "Uložiť"
+    },
+    "deleteUserDialog": {
+      "yes": "Áno",
+      "no": "Nie"
+    },
+    "errorMessage": {
+      "summary": "Chyba",
+      "errorLoadUsers": "Nepodarilo sa načítať používateľov",
+      "errorLoadUserTests": "Nepodarilo sa načítať testy používateľa",
+      "errorSaveUser": "Nepodarilo sa uložiť používateľa",
+      "errorDeleteUser": "Nepodarilo sa odstrániť používateľa"
+    },
+    "successMessage": {
+      "summary": "Úspech",
+      "updatedUser": "Používateľ bol aktualizovaný",
+      "createdUser": "Používateľ bol vytvorený",
+      "deleteUser": "Používateľ bol odstránený"
+    },
+    "requiredFields": {
+      "name": "Meno je povinné.",
+      "email": "Email je povinný.",
+      "password": "Heslo je povinné pre nových používateľov.",
+      "role": "Rola je povinná.",
+      "language": "Jazyk je povinný."
+    }
+  }
+}
