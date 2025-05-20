@@ -10,6 +10,7 @@ import ProfilePage from "./Pages/ProfilePage.jsx";
 import AdminProfilePage from "./Pages/AdminProfilePage.jsx";
 import axios from 'axios';
 import { ensureGuestId } from './utils/guestUser';
+import SwaggerPage from "./Pages/SwaggerPage.jsx";
 
 function App() {
     axios.interceptors.request.use(config => {
@@ -34,6 +35,7 @@ function App() {
             <Route path="/logout" element={<LogoutPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/admin" element={<AdminProfilePage />} />
+            <Route path='/swagger' element={<SwaggerPage />} />
         </Routes>
     )
 }
