@@ -328,19 +328,19 @@ export default function AdminProfilePage() {
             </div>
         );
     };
-
-    const dateBodyTemplate = (rowData) => {
-        return new Date(rowData.created_at).toLocaleString();
-    };
-
-    const scoreBodyTemplate = (rowData) => {
-        return (
-            <Tag
-                value={`${rowData.score || 0}%`}
-                severity={rowData.score >= 70 ? 'success' : rowData.score >= 40 ? 'warning' : 'danger'}
-            />
-        );
-    };
+    //
+    // const dateBodyTemplate = (rowData) => {
+    //     return new Date(rowData.created_at).toLocaleString();
+    // };
+    //
+    // const scoreBodyTemplate = (rowData) => {
+    //     return (
+    //         <Tag
+    //             value={`${rowData.score || 0}%`}
+    //             severity={rowData.score >= 70 ? 'success' : rowData.score >= 40 ? 'warning' : 'danger'}
+    //         />
+    //     );
+    // };
 
     const header = (
         <div className="flex flex-wrap justify-content-between align-items-center gap-2">
@@ -401,6 +401,8 @@ export default function AdminProfilePage() {
                     header={header}
                     emptyMessage={t('adminProfilePage.noUsersFound')}
                     style={{width: '100%'}}
+                    scrollable
+                    scrollHeight="400px"
                 >
                     <Column field="id" header="ID" sortable style={{width: '5%'}}></Column>
                     <Column field="name" header={t('registration.name')} sortable style={{width: '20%'}}></Column>
@@ -525,6 +527,8 @@ export default function AdminProfilePage() {
                         paginator
                         rows={5}
                         rowsPerPageOptions={[5, 10]}
+                        scrollable
+                        scrollHeight="300px"
                     >
                         <Column field="id" header="ID" style={{width: '5%'}}></Column>
                         <Column
