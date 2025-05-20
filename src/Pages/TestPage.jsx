@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { StartTestMenu } from "../Components/TestComponents/StartTestMenu.jsx";
-import { Test } from "../Components/TestComponents/Test.jsx";
-import { TestResultsMenu } from "../Components/TestComponents/TestResultsMenu.jsx";
+import {useEffect, useState} from "react";
+import {StartTestMenu} from "../Components/TestComponents/StartTestMenu.jsx";
+import {Test} from "../Components/TestComponents/Test.jsx";
+import {TestResultsMenu} from "../Components/TestComponents/TestResultsMenu.jsx";
 import {TestLoadingScreen} from "../Components/TestComponents/TestLoadingScreen.jsx";
 
 export const TestPage = () => {
@@ -84,22 +84,26 @@ export const TestPage = () => {
             if (!testRes.ok) throw new Error("Failed to fetch test");
             const testData = await testRes.json();
 
-            if (!testData.is_new) {
-                console.log("Test created with some repeated questions.");
+            if (testData.success === true) {
+                if (!testData.response.is_new) {
+                    console.log("Test created with some repeated questions.");
+                }
+
+                let existingQuestionIds = JSON.parse(localStorage.getItem("question_ids") || "[]");
+                const newQuestionIds = testData.response.questions.map(q => q.id);
+
+                const updatedQuestionIds = [
+                    ...new Set([...existingQuestionIds, ...newQuestionIds])
+                ];
+
+                // 9) Update localStorage with the new question IDs list
+                localStorage.setItem("question_ids", JSON.stringify(updatedQuestionIds));
+
+                setTestState(1);
+                setTest(testData.response);
+            }else{
+                console.log(testData.message)
             }
-
-            let existingQuestionIds = JSON.parse(localStorage.getItem("question_ids") || "[]");
-            const newQuestionIds = testData.questions.map(q => q.id);
-
-            const updatedQuestionIds = [
-                ...new Set([...existingQuestionIds, ...newQuestionIds])
-            ];
-
-            // 9) Update localStorage with the new question IDs list
-            localStorage.setItem("question_ids", JSON.stringify(updatedQuestionIds));
-
-            setTestState(1);
-            setTest(testData);
         } catch (err) {
             console.error("start test error:", err);
         }
@@ -108,20 +112,30 @@ export const TestPage = () => {
     const getTestResults = async () => {
         setTestState(3)
         const url = new URL(`http://127.0.0.1:8000/test/${test.test_id}`);
+        const curToken = localStorage.getItem("token")
 
-        const testRes = await fetch(url.toString());
-        if (!testRes.ok) throw new Error("Failed to fetch test");
+        const testRes = await fetch(url.toString(), {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${curToken}`,
+            }
+        });
         const testData = await testRes.json();
-
-        setTestState(2)
-        setTestResult(testData)
+        if (testData.success === true) {
+            console.log(testData.response)
+            setTestState(2)
+            setTestResult(testData.response)
+        } else {
+            console.log(testData.message)
+            console.log(testData.errors)
+        }
     }
-
 
     return (
         <>
             {testState === 0 ? (
-                <StartTestMenu setTestingPhase={setTestingPhase} />
+                <StartTestMenu setTestingPhase={setTestingPhase}/>
             ) : testState === 1 ? (
                 <Test setResultPhase={setResultsPhase} test={test}/>
             ) : testState === 2 ? (

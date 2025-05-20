@@ -74,7 +74,7 @@ export const TestResultsMenu = ({ testResult }) => {
                         {expandedIndex === index && (
                             <div className="expanded-info">
                                 <p><strong>Field:</strong> {formatFields(el.questions.fields).fields_en}</p>
-                                <p><strong>Correct Answer:</strong> {el.questions.right_answer_en}</p>
+                                <div><strong>Correct Answer:</strong><MathText text={el.questions.right_answer_en}/></div>
                                 <p><strong>Your Time:</strong> {formatSeconds(Math.round(el.time_spent_seconds))}</p>
                                 <p><strong>Average Time:</strong> {formatSeconds(Math.round(el.average_time))}</p>
                             </div>
