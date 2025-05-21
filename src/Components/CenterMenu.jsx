@@ -28,9 +28,13 @@ export const CenterMenu = () => {
     }, []);
 
     const downloadManual = () => {
+        console.log('clicked');
+        const role = userState || 'guest';
+        const lang = i18n.language || 'en';
+
         const link = document.createElement('a');
-        link.href = 'http://127.0.0.1:8000/api/manual/pdf';
-        link.download = 'manual.pdf';
+        link.href = `http://127.0.0.1:8000/api/manual/${role}/${lang}`;
+        link.download = `${role}_manual_${lang}.pdf`;
         link.target = '_blank';
         link.click();
     };
