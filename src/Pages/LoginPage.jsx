@@ -7,6 +7,7 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import "../Styles/AuthPages.css";
 import { useTranslation } from 'react-i18next';
+import BackButton from "../Components/BackButton.jsx";
 
 
 export default function LoginPage() {
@@ -48,48 +49,53 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="auth-container">
-      <Card title={t('login.operation')} className="auth-card">
-        <form onSubmit={handleLogin}>
-          {error && <div className="error-message">{error}</div>}
+      <div className="main-div">
+        <BackButton/>
+        <div className="auth-container">
 
-          <div className="field">
-            <label htmlFor="email">{t('registration.email')}</label>
-            <InputText
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="w-100"
-            />
-          </div>
+          <Card title={t('login.operation')} className="auth-card">
+            <form onSubmit={handleLogin}>
+              {error && <div className="error-message">{error}</div>}
 
-          <div className="field">
-            <label htmlFor="password">{t('registration.password')}</label>
-            <Password
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              toggleMask
-              feedback={false}
-              required
-              className="w-100"
-            />
-          </div>
+              <div className="field">
+                <label htmlFor="email">{t('registration.email')}</label>
+                <InputText
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="w-100"
+                />
+              </div>
 
-          <Button
-            type="submit"
-            label={loading ? t('login.loggingIn') : t('login.login')}
-            disabled={loading}
-            className="auth-button"
-          />
+              <div className="field">
+                <label htmlFor="password">{t('registration.password')}</label>
+                <Password
+                    id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    toggleMask
+                    feedback={false}
+                    required
+                    className="w-100"
+                />
+              </div>
 
-          <div className="auth-footer">
-            {t('login.additionalLabel')} <Link to="/register">{t('menu.authButtons.register')}</Link>
-          </div>
-        </form>
-      </Card>
-    </div>
+              <Button
+                  type="submit"
+                  label={loading ? t('login.loggingIn') : t('login.login')}
+                  disabled={loading}
+                  className="auth-button"
+              />
+
+              <div className="auth-footer">
+                {t('login.additionalLabel')} <Link to="/register">{t('menu.authButtons.register')}</Link>
+              </div>
+            </form>
+          </Card>
+        </div>
+      </div>
+
   );
 }

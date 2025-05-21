@@ -12,7 +12,7 @@ export const TestQuestionPanel = ({ answer, setAnswer, question, questionType, q
     const { t, i18n } = useTranslation();
 
     return (
-        <div className="test-panel">
+        <div className="test-panel test-div">
             <div className="header">
                 <div className="question-text"><MathText text={question}/></div>
                 <div className="question-info">{`${questionNumber}/${totalQuestions}`}</div>

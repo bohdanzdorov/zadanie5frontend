@@ -9,6 +9,7 @@ import {Column} from "primereact/column";
 import axios from "axios";
 import "../Styles/AuthPages.css";
 import {useTranslation} from "react-i18next";
+import BackButton from "../Components/BackButton.jsx";
 
 export default function ProfilePage() {
     const { t, i18n } = useTranslation();
@@ -253,195 +254,206 @@ export default function ProfilePage() {
     }
 
     return (
-        <div className="profile-container" style={{width: '80%', margin: '0 auto', padding: '2rem'}}>
-            <Card title={t('profilePage.title')} style={{width: '100%'}}>
-                {error && <div className="error-message">{error}</div>}
-                {success && <div className="success-message" style={{
-                    background: "#edfaef",
-                    color: "#2e7d32",
-                    width: "100%",
-                    padding: "0.75rem",
-                    borderRadius: "4px",
-                    marginBottom: "1rem",
-                    borderLeft: "4px solid #2e7d32"
-                }}>{success}</div>}
+        <div className="main-div">
+            <BackButton/>
+            <div className="profile-container" style={{width: '80%', margin: '0 auto', padding: '2rem'}}>
+                <Card title={t('profilePage.title')} style={{width: '100%'}}>
+                    {error && <div className="error-message">{error}</div>}
+                    {success && <div className="success-message" style={{
+                        background: "#edfaef",
+                        color: "#2e7d32",
+                        width: "100%",
+                        padding: "0.75rem",
+                        borderRadius: "4px",
+                        marginBottom: "1rem",
+                        borderLeft: "4px solid #2e7d32"
+                    }}>{success}</div>}
 
-                <form onSubmit={handleUpdateProfile}>
-                    <div className="field">
-                        <label htmlFor="name">{t('registration.name')}</label>
-                        <InputText
-                            id="name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            required
-                            style={{width: '100%'}}
-                        />
-                    </div>
-
-                    <div className="field">
-                        <label htmlFor="email">{t('registration.email')}</label>
-                        <InputText
-                            id="email"
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                            style={{width: '100%'}}
-                        />
-                    </div>
-
-                    <div className="field">
-                        <label htmlFor="language">{t('registration.language.name')}</label>
-                        <select
-                            id="language"
-                            value={language}
-                            onChange={(e) => setLanguage(e.target.value)}
-                            style={{
-                                width: '100%',
-                                padding: '0.5rem',
-                                borderRadius: '4px',
-                                border: '1px solid #ced4da'
-                            }}
-                        >
-                            <option value="en">{t('registration.language.english')}</option>
-                            <option value="sk">{t('registration.language.slovak')}</option>
-                        </select>
-                    </div>
-
-                    <div className="flex flex-wrap justify-content-between" style={{marginTop: '1rem'}}>
-                        <Button
-                            type="submit"
-                            label={t('profilePage.updateProfile')}
-                            className="auth-button"
-                            style={{width: 'auto'}}
-                        />
-                        <div className="flex gap-2">
-                            <Button
-                                type="button"
-                                label={showTestsHistory ? t('profilePage.historyButton.hide') : t('profilePage.historyButton.show')}
-                                className={showTestsHistory ? "p-button-outlined p-button-primary" : "p-button-outlined"}
-                                icon={showTestsHistory ? "pi pi-eye-slash" : "pi pi-eye"}
-                                onClick={toggleTestsHistory}
-                                style={{width: 'auto'}}
-                            />
-                            <Button
-                                type="button"
-                                label={showPasswordForm ? t('profilePage.passwordButton.cancel') : t('profilePage.passwordButton.approve')}
-                                className={showPasswordForm ? "p-button-outlined p-button-secondary" : "p-button-outlined"}
-                                icon={showPasswordForm ? "pi pi-times" : "pi pi-lock"}
-                                onClick={togglePasswordForm}
-                                style={{width: 'auto'}}
+                    <form onSubmit={handleUpdateProfile}>
+                        <div className="field">
+                            <label htmlFor="name">{t('registration.name')}</label>
+                            <InputText
+                                id="name"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                required
+                                style={{width: '100%'}}
                             />
                         </div>
-                    </div>
-                </form>
 
-                {showTestsHistory && (
-                    <div style={{margin: "2rem 0", borderTop: "1px solid #eee", paddingTop: "1rem"}}>
-                        <h3>{t('profilePage.testsHistory.title')}</h3>
-
-                        {loadingTests ? (
-                            <p>{t('profilePage.testsHistory.loading')}</p>
-                        ) : testsHistory.length === 0 ? (
-                            <p>{t('profilePage.testsHistory.notFound')}</p>
-                        ) : (
-                            <DataTable
-                                value={testsHistory}
-                                paginator
-                                rows={5}
-                                rowsPerPageOptions={[5, 10, 25]}
+                        <div className="field">
+                            <label htmlFor="email">{t('registration.email')}</label>
+                            <InputText
+                                id="email"
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
                                 style={{width: '100%'}}
+                            />
+                        </div>
+
+                        <div className="field">
+                            <label htmlFor="language">{t('registration.language.name')}</label>
+                            <select
+                                id="language"
+                                value={language}
+                                onChange={(e) => setLanguage(e.target.value)}
+                                style={{
+                                    width: '100%',
+                                    padding: '0.5rem',
+                                    borderRadius: '4px',
+                                    border: '1px solid #ced4da'
+                                }}
                             >
-                                <Column field="id" header="Test ID" sortable style={{width: '8%'}}></Column>
-                                <Column field="created_at" header={t('profilePage.testsHistory.table.date')} body={(rowData) => formatDate(rowData.created_at)}
-                                        sortable style={{width: '20%'}}></Column>
-                                <Column field="location" header={t('testResultMenu.location')} sortable style={{width: '17%'}}></Column>
-                                <Column field="score" header={t('testResultMenu.score')} body={(rowData) => `${rowData.score}%`} sortable
-                                        style={{width: '10%'}}></Column>
-                                <Column field="correct" header={t('profilePage.testsHistory.table.correct')} sortable
-                                        style={{width: '10%'}}></Column>
-                                <Column field="total" header={t('profilePage.testsHistory.table.total')} sortable style={{width: '10%'}}></Column>
-                                <Column field="time_spent" header={t('testResultMenu.timeSpent')}
-                                        body={(rowData) => formatTimeSpent(rowData.time_spent)} sortable
-                                        style={{width: '15%'}}></Column>
-                            </DataTable>
-                        )}
-                    </div>
-                )}
+                                <option value="en">{t('registration.language.english')}</option>
+                                <option value="sk">{t('registration.language.slovak')}</option>
+                            </select>
+                        </div>
 
-                {showPasswordForm && (
-                    <div style={{margin: "2rem 0", borderTop: "1px solid #eee", paddingTop: "1rem"}}>
-                        <h3>{t('profilePage.passwordButton.approve')} </h3>
-
-                        {passwordError && <div className="error-message">{passwordError}</div>}
-                        {passwordSuccess && <div className="success-message" style={{
-                            background: "#edfaef",
-                            color: "#2e7d32",
-                            padding: "0.75rem",
-                            width: '100%',
-                            borderRadius: "4px",
-                            marginBottom: "1rem",
-                            borderLeft: "4px solid #2e7d32"
-                        }}>{passwordSuccess}</div>}
-
-                        <form onSubmit={handleChangePassword}>
-                            <div className="field">
-                                <label htmlFor="currentPassword">{t('profilePage.passwordForm.currentPassword')}</label>
-                                <Password
-                                    id="currentPassword"
-                                    value={currentPassword}
-                                    onChange={(e) => setCurrentPassword(e.target.value)}
-                                    required
-                                    toggleMask
-                                    feedback={false}
-                                    inputStyle={{width: '100%'}}
-                                    inputClassName="w-100"
-                                />
-                            </div>
-
-                            <div className="field">
-                                <label htmlFor="newPassword">{t('profilePage.passwordForm.newPassword')}</label>
-                                <Password
-                                    id="newPassword"
-                                    value={newPassword}
-                                    onChange={(e) => setNewPassword(e.target.value)}
-                                    required
-                                    toggleMask
-                                    inputStyle={{width: '100%'}}
-                                    inputClassName="w-100"
-                                    feedback={true}
-                                    promptLabel={t('registration.enterPassword')}
-                                    weakLabel={t('registration.passwordStrength.weak')}
-                                    mediumLabel={t('registration.passwordStrength.medium')}
-                                    strongLabel={t('registration.passwordStrength.strong')}
-                                />
-                            </div>
-
-                            <div className="field">
-                                <label htmlFor="confirmPassword">{t('profilePage.passwordForm.confirmNewPassword')}</label>
-                                <Password
-                                    id="confirmPassword"
-                                    value={confirmPassword}
-                                    onChange={(e) => setConfirmPassword(e.target.value)}
-                                    required
-                                    toggleMask
-                                    feedback={false}
-                                    inputStyle={{width: '100%'}}
-                                    inputClassName="w-100"
-                                />
-                            </div>
-
+                        <div className="flex flex-wrap justify-content-between" style={{marginTop: '1rem'}}>
                             <Button
                                 type="submit"
-                                label={t('profilePage.passwordForm.changeButton')}
-                                icon="pi pi-check"
+                                label={t('profilePage.updateProfile')}
                                 className="auth-button"
                                 style={{width: 'auto'}}
                             />
-                        </form>
-                    </div>
-                )}
-            </Card>
+                            <div className="flex gap-2">
+                                <Button
+                                    type="button"
+                                    label={showTestsHistory ? t('profilePage.historyButton.hide') : t('profilePage.historyButton.show')}
+                                    className={showTestsHistory ? "p-button-outlined p-button-primary" : "p-button-outlined"}
+                                    icon={showTestsHistory ? "pi pi-eye-slash" : "pi pi-eye"}
+                                    onClick={toggleTestsHistory}
+                                    style={{width: 'auto'}}
+                                />
+                                <Button
+                                    type="button"
+                                    label={showPasswordForm ? t('profilePage.passwordButton.cancel') : t('profilePage.passwordButton.approve')}
+                                    className={showPasswordForm ? "p-button-outlined p-button-secondary" : "p-button-outlined"}
+                                    icon={showPasswordForm ? "pi pi-times" : "pi pi-lock"}
+                                    onClick={togglePasswordForm}
+                                    style={{width: 'auto'}}
+                                />
+                            </div>
+                        </div>
+                    </form>
+
+                    {showTestsHistory && (
+                        <div style={{margin: "2rem 0", borderTop: "1px solid #eee", paddingTop: "1rem"}}>
+                            <h3>{t('profilePage.testsHistory.title')}</h3>
+
+                            {loadingTests ? (
+                                <p>{t('profilePage.testsHistory.loading')}</p>
+                            ) : testsHistory.length === 0 ? (
+                                <p>{t('profilePage.testsHistory.notFound')}</p>
+                            ) : (
+                                <DataTable
+                                    value={testsHistory}
+                                    paginator
+                                    rows={5}
+                                    rowsPerPageOptions={[5, 10, 25]}
+                                    style={{width: '100%'}}
+                                >
+                                    <Column field="id" header="Test ID" sortable style={{width: '8%'}}></Column>
+                                    <Column field="created_at" header={t('profilePage.testsHistory.table.date')}
+                                            body={(rowData) => formatDate(rowData.created_at)}
+                                            sortable style={{width: '20%'}}></Column>
+                                    <Column field="location" header={t('testResultMenu.location')} sortable
+                                            style={{width: '17%'}}></Column>
+                                    <Column field="score" header={t('testResultMenu.score')}
+                                            body={(rowData) => `${rowData.score}%`} sortable
+                                            style={{width: '10%'}}></Column>
+                                    <Column field="correct" header={t('profilePage.testsHistory.table.correct')}
+                                            sortable
+                                            style={{width: '10%'}}></Column>
+                                    <Column field="total" header={t('profilePage.testsHistory.table.total')} sortable
+                                            style={{width: '10%'}}></Column>
+                                    <Column field="time_spent" header={t('testResultMenu.timeSpent')}
+                                            body={(rowData) => formatTimeSpent(rowData.time_spent)} sortable
+                                            style={{width: '15%'}}></Column>
+                                </DataTable>
+                            )}
+                        </div>
+                    )}
+
+                    {showPasswordForm && (
+                        <div style={{margin: "2rem 0", borderTop: "1px solid #eee", paddingTop: "1rem"}}>
+                            <h3>{t('profilePage.passwordButton.approve')} </h3>
+
+                            {passwordError && <div className="error-message">{passwordError}</div>}
+                            {passwordSuccess && <div className="success-message" style={{
+                                background: "#edfaef",
+                                color: "#2e7d32",
+                                padding: "0.75rem",
+                                width: '100%',
+                                borderRadius: "4px",
+                                marginBottom: "1rem",
+                                borderLeft: "4px solid #2e7d32"
+                            }}>{passwordSuccess}</div>}
+
+                            <form onSubmit={handleChangePassword}>
+                                <div className="field">
+                                    <label
+                                        htmlFor="currentPassword">{t('profilePage.passwordForm.currentPassword')}</label>
+                                    <Password
+                                        id="currentPassword"
+                                        value={currentPassword}
+                                        onChange={(e) => setCurrentPassword(e.target.value)}
+                                        required
+                                        toggleMask
+                                        feedback={false}
+                                        inputStyle={{width: '100%'}}
+                                        inputClassName="w-100"
+                                    />
+                                </div>
+
+                                <div className="field">
+                                    <label htmlFor="newPassword">{t('profilePage.passwordForm.newPassword')}</label>
+                                    <Password
+                                        id="newPassword"
+                                        value={newPassword}
+                                        onChange={(e) => setNewPassword(e.target.value)}
+                                        required
+                                        toggleMask
+                                        inputStyle={{width: '100%'}}
+                                        inputClassName="w-100"
+                                        feedback={true}
+                                        promptLabel={t('registration.enterPassword')}
+                                        weakLabel={t('registration.passwordStrength.weak')}
+                                        mediumLabel={t('registration.passwordStrength.medium')}
+                                        strongLabel={t('registration.passwordStrength.strong')}
+                                    />
+                                </div>
+
+                                <div className="field">
+                                    <label
+                                        htmlFor="confirmPassword">{t('profilePage.passwordForm.confirmNewPassword')}</label>
+                                    <Password
+                                        id="confirmPassword"
+                                        value={confirmPassword}
+                                        onChange={(e) => setConfirmPassword(e.target.value)}
+                                        required
+                                        toggleMask
+                                        feedback={false}
+                                        inputStyle={{width: '100%'}}
+                                        inputClassName="w-100"
+                                    />
+                                </div>
+
+                                <Button
+                                    type="submit"
+                                    label={t('profilePage.passwordForm.changeButton')}
+                                    icon="pi pi-check"
+                                    className="auth-button"
+                                    style={{width: 'auto'}}
+                                />
+                            </form>
+                        </div>
+                    )}
+                </Card>
+            </div>
         </div>
+
     );
 }

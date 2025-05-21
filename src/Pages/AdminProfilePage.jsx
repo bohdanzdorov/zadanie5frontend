@@ -15,6 +15,7 @@ import {useRef} from "react";
 import axios from "axios";
 import "../Styles/AuthPages.css";
 import {useTranslation} from "react-i18next";
+import BackButton from "../Components/BackButton.jsx";
 
 export default function AdminProfilePage() {
     const { t, i18n } = useTranslation();
@@ -379,204 +380,215 @@ export default function AdminProfilePage() {
     );
 
     return (
-        <div className="admin-container" style={{padding: '2rem', width: '80%', margin: '0 auto'}}>
-            <Toast ref={toast}/>
+        <div className="main-div">
+            <BackButton/>
+            <div className="admin-container" style={{padding: '2rem', width: '80%', margin: '0 auto'}}>
+                <Toast ref={toast}/>
 
-            <Card title={t('adminProfilePage.title')} style={{marginBottom: '2rem'}}>
-                <p>{t('adminProfilePage.description')}</p>
-            </Card>
+                <Card title={t('adminProfilePage.title')} style={{marginBottom: '2rem'}}>
+                    <p>{t('adminProfilePage.description')}</p>
+                </Card>
 
-            <Card>
-                <DataTable
-                    value={users}
-                    lazy
-                    paginator
-                    dataKey="id"
-                    rows={lazyState.rows}
-                    rowsPerPageOptions={[5, 10, 25]}
-                    totalRecords={totalRecords}
-                    first={lazyState.first}
-                    onPage={onPage}
-                    loading={loading}
-                    header={header}
-                    emptyMessage={t('adminProfilePage.noUsersFound')}
-                    style={{width: '100%'}}
-                    scrollable
-                    scrollHeight="400px"
+                <Card>
+                    <DataTable
+                        value={users}
+                        lazy
+                        paginator
+                        dataKey="id"
+                        rows={lazyState.rows}
+                        rowsPerPageOptions={[5, 10, 25]}
+                        totalRecords={totalRecords}
+                        first={lazyState.first}
+                        onPage={onPage}
+                        loading={loading}
+                        header={header}
+                        emptyMessage={t('adminProfilePage.noUsersFound')}
+                        style={{width: '100%'}}
+                        scrollable
+                        scrollHeight="400px"
+                    >
+                        <Column field="id" header="ID" sortable style={{width: '5%'}}></Column>
+                        <Column field="name" header={t('registration.name')} sortable style={{width: '20%'}}></Column>
+                        <Column field="email" header={t('registration.email')} sortable style={{width: '30%'}}></Column>
+                        <Column field="role" header={t('adminProfilePage.roles.title')} sortable
+                                style={{width: '15%'}}></Column>
+                        <Column field="language" header={t('registration.language.name')} sortable
+                                style={{width: '15%'}}></Column>
+                        <Column body={actionBodyTemplate} exportable={false} style={{width: '15%'}}></Column>
+                    </DataTable>
+                </Card>
+
+                {/* Edit User Dialog */}
+                <Dialog
+                    visible={userDialog}
+                    style={{width: '500px'}}
+                    header={user?.id ? t('adminProfilePage.editDialog.edit') : t('adminProfilePage.editDialog.new')}
+                    modal
+                    className="p-fluid"
+                    footer={userDialogFooter}
+                    onHide={hideDialog}
                 >
-                    <Column field="id" header="ID" sortable style={{width: '5%'}}></Column>
-                    <Column field="name" header={t('registration.name')} sortable style={{width: '20%'}}></Column>
-                    <Column field="email" header={t('registration.email')} sortable style={{width: '30%'}}></Column>
-                    <Column field="role" header={t('adminProfilePage.roles.title')} sortable style={{width: '15%'}}></Column>
-                    <Column field="language" header={t('registration.language.name')} sortable style={{width: '15%'}}></Column>
-                    <Column body={actionBodyTemplate} exportable={false} style={{width: '15%'}}></Column>
-                </DataTable>
-            </Card>
+                    <div className="field">
+                        <label htmlFor="name">{t('registration.name')}</label>
+                        <InputText
+                            id="name"
+                            value={user?.name}
+                            onChange={(e) => setUser(prev => ({...prev, name: e.target.value}))}
+                            required
+                            className={submitted && !user?.name ? 'p-invalid' : ''}
+                        />
+                        {submitted && !user?.name &&
+                            <small className="p-error">{t('adminProfilePage.requiredFields.name')}</small>}
+                    </div>
 
-            {/* Edit User Dialog */}
-            <Dialog
-                visible={userDialog}
-                style={{width: '500px'}}
-                header={user?.id ? t('adminProfilePage.editDialog.edit') : t('adminProfilePage.editDialog.new')}
-                modal
-                className="p-fluid"
-                footer={userDialogFooter}
-                onHide={hideDialog}
-            >
-                <div className="field">
-                    <label htmlFor="name">{t('registration.name')}</label>
-                    <InputText
-                        id="name"
-                        value={user?.name}
-                        onChange={(e) => setUser(prev => ({...prev, name: e.target.value}))}
-                        required
-                        className={submitted && !user?.name ? 'p-invalid' : ''}
-                    />
-                    {submitted && !user?.name && <small className="p-error">{t('adminProfilePage.requiredFields.name')}</small>}
-                </div>
+                    <div className="field">
+                        <label htmlFor="email">{t('registration.email')}</label>
+                        <InputText
+                            id="email"
+                            value={user?.email}
+                            onChange={(e) => setUser(prev => ({...prev, email: e.target.value}))}
+                            required
+                            className={submitted && !user?.email ? 'p-invalid' : ''}
+                        />
+                        {submitted && !user?.email &&
+                            <small className="p-error">{t('adminProfilePage.requiredFields.email')}</small>}
+                    </div>
 
-                <div className="field">
-                    <label htmlFor="email">{t('registration.email')}</label>
-                    <InputText
-                        id="email"
-                        value={user?.email}
-                        onChange={(e) => setUser(prev => ({...prev, email: e.target.value}))}
-                        required
-                        className={submitted && !user?.email ? 'p-invalid' : ''}
-                    />
-                    {submitted && !user?.email && <small className="p-error">{t('adminProfilePage.requiredFields.email')}</small>}
-                </div>
+                    <div className="field">
+                        <label
+                            htmlFor="password">{user?.id ? t('adminProfilePage.passwordAdditionalInfo') : t('registration.password')}</label>
+                        <Password
+                            id="password"
+                            value={user?.password}
+                            onChange={(e) => setUser(prev => ({...prev, password: e.target.value}))}
+                            toggleMask
+                            className={submitted && !user?.password && !user?.id ? 'p-invalid' : ''}
+                            feedback={true}
+                            promptLabel={t('registration.enterPassword')}
+                            weakLabel={t('registration.passwordStrength.weak')}
+                            mediumLabel={t('registration.passwordStrength.medium')}
+                            strongLabel={t('registration.passwordStrength.strong')}
+                        />
+                        {submitted && !user?.password && !user?.id &&
+                            <small className="p-error">{t('adminProfilePage.requiredFields.password')}</small>}
+                    </div>
 
-                <div className="field">
-                    <label htmlFor="password">{user?.id ? t('adminProfilePage.passwordAdditionalInfo') : t('registration.password')}</label>
-                    <Password
-                        id="password"
-                        value={user?.password}
-                        onChange={(e) => setUser(prev => ({...prev, password: e.target.value}))}
-                        toggleMask
-                        className={submitted && !user?.password && !user?.id ? 'p-invalid' : ''}
-                        feedback={true}
-                        promptLabel={t('registration.enterPassword')}
-                        weakLabel={t('registration.passwordStrength.weak')}
-                        mediumLabel={t('registration.passwordStrength.medium')}
-                        strongLabel={t('registration.passwordStrength.strong')}
-                    />
-                    {submitted && !user?.password && !user?.id &&
-                        <small className="p-error">{t('adminProfilePage.requiredFields.password')}</small>}
-                </div>
+                    <div className="field">
+                        <label htmlFor="role">{t('adminProfilePage.roles.title')}</label>
+                        <Dropdown
+                            id="role"
+                            value={user?.role}
+                            options={roleOptions}
+                            onChange={(e) => setUser(prev => ({...prev, role: e.value}))}
+                            placeholder={t('adminProfilePage.roles.selectText')}
+                            required
+                            className={submitted && !user?.role ? 'p-invalid' : ''}
+                        />
+                        {submitted && !user?.role &&
+                            <small className="p-error">{t('adminProfilePage.requiredFields.role')}</small>}
+                    </div>
 
-                <div className="field">
-                    <label htmlFor="role">{t('adminProfilePage.roles.title')}</label>
-                    <Dropdown
-                        id="role"
-                        value={user?.role}
-                        options={roleOptions}
-                        onChange={(e) => setUser(prev => ({...prev, role: e.value}))}
-                        placeholder={t('adminProfilePage.roles.selectText')}
-                        required
-                        className={submitted && !user?.role ? 'p-invalid' : ''}
-                    />
-                    {submitted && !user?.role && <small className="p-error">{t('adminProfilePage.requiredFields.role')}</small>}
-                </div>
+                    <div className="field">
+                        <label htmlFor="language">{t('registration.language.name')}</label>
+                        <Dropdown
+                            id="language"
+                            value={user?.language}
+                            options={languageOptions}
+                            onChange={(e) => setUser(prev => ({...prev, language: e.value}))}
+                            placeholder={t('adminProfilePage.editDialog.languageSelectText')}
+                            required
+                            className={submitted && !user?.language ? 'p-invalid' : ''}
+                        />
+                        {submitted && !user?.language &&
+                            <small className="p-error">{t('adminProfilePage.requiredFields.language')}</small>}
+                    </div>
+                </Dialog>
 
-                <div className="field">
-                    <label htmlFor="language">{t('registration.language.name')}</label>
-                    <Dropdown
-                        id="language"
-                        value={user?.language}
-                        options={languageOptions}
-                        onChange={(e) => setUser(prev => ({...prev, language: e.value}))}
-                        placeholder={t('adminProfilePage.editDialog.languageSelectText')}
-                        required
-                        className={submitted && !user?.language ? 'p-invalid' : ''}
-                    />
-                    {submitted && !user?.language && <small className="p-error">{t('adminProfilePage.requiredFields.language')}</small>}
-                </div>
-            </Dialog>
-
-            <Dialog
-                visible={deleteUserDialog}
-                style={{width: '450px'}}
-                header={t('adminProfilePage.deleteDialog.header')}
-                modal
-                footer={deleteUserDialogFooter}
-                onHide={hideDeleteUserDialog}
-            >
-                <div className="flex align-items-center justify-content-center">
-                    <i className="pi pi-exclamation-triangle"
-                       style={{fontSize: '2rem', color: 'var(--red-500)', marginRight: '1rem'}}/>
-                    <span>
+                <Dialog
+                    visible={deleteUserDialog}
+                    style={{width: '450px'}}
+                    header={t('adminProfilePage.deleteDialog.header')}
+                    modal
+                    footer={deleteUserDialogFooter}
+                    onHide={hideDeleteUserDialog}
+                >
+                    <div className="flex align-items-center justify-content-center">
+                        <i className="pi pi-exclamation-triangle"
+                           style={{fontSize: '2rem', color: 'var(--red-500)', marginRight: '1rem'}}/>
+                        <span>
             {t('adminProfilePage.deleteDialog.deleteTextInfo')} <b>{user?.name}</b>?
           </span>
-                </div>
-            </Dialog>
-            <Dialog
-                visible={userTestsDialog}
-                style={{width: '80%'}}
-                header={i18n.language === "en" ? `${user?.name}'s Tests` : `Testy ${user?.name}`}
-                modal
-                className="p-fluid"
-                onHide={hideUserTestsDialog}
-            >
-                {testsLoading ? (
-                    <p>{t('adminProfilePage.usersTable.loadingTests')}</p>
-                ) : (
-                    <DataTable
-                        value={userTests}
-                        emptyMessage={t('adminProfilePage.usersTable.emptyTests')}
-                        paginator
-                        rows={5}
-                        rowsPerPageOptions={[5, 10]}
-                        scrollable
-                        scrollHeight="300px"
-                    >
-                        <Column field="id" header="ID" style={{width: '5%'}}></Column>
-                        <Column
-                            field="created_at"
-                            header={t('profilePage.testsHistory.table.date')}
-                            body={(rowData) => formatDate(rowData.created_at)}
-                            style={{width: '15%'}}
-                        ></Column>
-                        <Column
-                            field="location"
-                            header={t('registration.language.name')}
-                            body={(rowData) => rowData.location ?
-                                `${rowData.location.city?.en || 'Unknown'}, ${rowData.location.country?.en || 'Unknown'}` :
-                                'Unknown'
-                            }
-                            style={{width: '15%'}}
-                        ></Column>
-                        <Column
-                            field="total_questions"
-                            header={t('adminProfilePage.usersTable.questions')}
-                            style={{width: '10%'}}
-                        ></Column>
-                        <Column
-                            field="correct_answers"
-                            header={t('profilePage.testsHistory.table.correct')}
-                            style={{width: '10%'}}
-                        ></Column>
-                        <Column
-                            field="accuracy_percent"
-                            header={t('profilePage.testsHistory.table.total')}
-                            body={(rowData) => (
-                                <Tag
-                                    value={`${rowData.accuracy_percent}%`}
-                                    severity={rowData.accuracy_percent >= 70 ? 'success' :
-                                        rowData.accuracy_percent >= 40 ? 'warning' : 'danger'}
-                                />
-                            )}
-                            style={{width: '10%'}}
-                        ></Column>
-                        <Column
-                            field="total_time_spent"
-                            header={t('testResultMenu.timeSpent')}
-                            body={(rowData) => formatTimeSpent(rowData.total_time_spent)}
-                            style={{width: '15%'}}
-                        ></Column>
-                    </DataTable>
-                )}
-            </Dialog>
+                    </div>
+                </Dialog>
+                <Dialog
+                    visible={userTestsDialog}
+                    style={{width: '80%'}}
+                    header={i18n.language === "en" ? `${user?.name}'s Tests` : `Testy ${user?.name}`}
+                    modal
+                    className="p-fluid"
+                    onHide={hideUserTestsDialog}
+                >
+                    {testsLoading ? (
+                        <p>{t('adminProfilePage.usersTable.loadingTests')}</p>
+                    ) : (
+                        <DataTable
+                            value={userTests}
+                            emptyMessage={t('adminProfilePage.usersTable.emptyTests')}
+                            paginator
+                            rows={5}
+                            rowsPerPageOptions={[5, 10]}
+                            scrollable
+                            scrollHeight="300px"
+                        >
+                            <Column field="id" header="ID" style={{width: '5%'}}></Column>
+                            <Column
+                                field="created_at"
+                                header={t('profilePage.testsHistory.table.date')}
+                                body={(rowData) => formatDate(rowData.created_at)}
+                                style={{width: '15%'}}
+                            ></Column>
+                            <Column
+                                field="location"
+                                header={t('registration.language.name')}
+                                body={(rowData) => rowData.location ?
+                                    `${rowData.location.city?.en || 'Unknown'}, ${rowData.location.country?.en || 'Unknown'}` :
+                                    'Unknown'
+                                }
+                                style={{width: '15%'}}
+                            ></Column>
+                            <Column
+                                field="total_questions"
+                                header={t('adminProfilePage.usersTable.questions')}
+                                style={{width: '10%'}}
+                            ></Column>
+                            <Column
+                                field="correct_answers"
+                                header={t('profilePage.testsHistory.table.correct')}
+                                style={{width: '10%'}}
+                            ></Column>
+                            <Column
+                                field="accuracy_percent"
+                                header={t('profilePage.testsHistory.table.total')}
+                                body={(rowData) => (
+                                    <Tag
+                                        value={`${rowData.accuracy_percent}%`}
+                                        severity={rowData.accuracy_percent >= 70 ? 'success' :
+                                            rowData.accuracy_percent >= 40 ? 'warning' : 'danger'}
+                                    />
+                                )}
+                                style={{width: '10%'}}
+                            ></Column>
+                            <Column
+                                field="total_time_spent"
+                                header={t('testResultMenu.timeSpent')}
+                                body={(rowData) => formatTimeSpent(rowData.total_time_spent)}
+                                style={{width: '15%'}}
+                            ></Column>
+                        </DataTable>
+                    )}
+                </Dialog>
+            </div>
         </div>
+
     );
 }
