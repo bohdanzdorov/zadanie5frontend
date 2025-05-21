@@ -23,33 +23,6 @@ export const TestPage = () => {
             const city_en = ipData.city || "Bratislava";
 
             console.log(city_en)
-            /* ---------- 2) Translate to Slovak via LibreTranslate ---------- */
-            // const translate = async (text) => {
-            //
-            //     const res = await fetch("https://libretranslate.com/translate", {
-            //         method: "POST",
-            //         headers: { "Content-Type": "application/json" },
-            //         body: JSON.stringify({
-            //             q: "",
-            //             source: "auto",
-            //             target: "sk",
-            //             format: "text",
-            //             alternatives: 3,
-            //             api_key: ""
-            //         }),
-            //     });
-            //
-            //     if (!res.ok) throw new Error("Translation failed");
-            //     const data = await res.json();
-            //     console.log(data)
-            //     return data.translatedText || text;
-            // };
-            //
-            // const [country_sk, city_sk] = await Promise.all([
-            //     translate(country_en),
-            //     translate(city_en),
-            // ]);
-
 
             /* ---------- 3) Current ISO time ---------- */
             const pad = (n) => n.toString().padStart(2, "0");
@@ -69,19 +42,27 @@ export const TestPage = () => {
                 excluded_question_ids: excluded_question_ids,
             };
 
-            const curToken = localStorage.getItem("token")
+            const headers = {
+                "Content-Type": "application/json",
+            };
 
-            // 5) Make the POST request to fetch the test
+            //Current user token
+            const curToken = localStorage.getItem("token");
+
+            if (curToken) {
+                headers['Authorization'] = `Bearer ${curToken}`;
+            } else {
+                headers['X-Guest-ID'] = localStorage.getItem("guest_id");
+            }
+
+            console.log(JSON.stringify(headers))
             const testRes = await fetch("http://127.0.0.1:8000/test", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    'Authorization': `Bearer ${curToken}`,
-                },
+                headers,
                 body: JSON.stringify(requestBody),
             });
 
-            if (!testRes.ok) throw new Error("Failed to fetch test");
+
             const testData = await testRes.json();
 
             if (testData.success === true) {
@@ -101,7 +82,7 @@ export const TestPage = () => {
 
                 setTestState(1);
                 setTest(testData.response);
-            }else{
+            } else {
                 console.log(testData.message)
             }
         } catch (err) {
@@ -112,14 +93,23 @@ export const TestPage = () => {
     const getTestResults = async () => {
         setTestState(3)
         const url = new URL(`http://127.0.0.1:8000/test/${test.test_id}`);
-        const curToken = localStorage.getItem("token")
+
+        const headers = {
+            "Content-Type": "application/json",
+        };
+
+        //Current user token
+        const curToken = localStorage.getItem("token");
+
+        if (curToken) {
+            headers['Authorization'] = `Bearer ${curToken}`;
+        } else {
+            headers['X-Guest-ID'] = localStorage.getItem("guest_id");
+        }
 
         const testRes = await fetch(url.toString(), {
             method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                'Authorization': `Bearer ${curToken}`,
-            }
+            headers
         });
         const testData = await testRes.json();
         if (testData.success === true) {

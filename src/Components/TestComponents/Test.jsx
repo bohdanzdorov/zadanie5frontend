@@ -28,15 +28,23 @@ export const Test = ({test, setResultPhase}) => {
         const elapsedMs = Date.now() - startTimeRef.current;
         const time_spent = Math.floor(elapsedMs / 1000); // seconds
 
-        const curToken = localStorage.getItem("token")
+        const headers = {
+            "Content-Type": "application/json",
+        };
+
+        //Current user token
+        const curToken = localStorage.getItem("token");
+
+        if (curToken) {
+            headers['Authorization'] = `Bearer ${curToken}`;
+        } else {
+            headers['X-Guest-ID'] = localStorage.getItem("guest_id");
+        }
 
         try {
             const res = await fetch("http://127.0.0.1:8000/answer", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    'Authorization': `Bearer ${curToken}`,
-                },
+                headers,
                 body: JSON.stringify({
                     test_id: test.test_id,
                     question_id: test.questions[curQuestionNum].id,
