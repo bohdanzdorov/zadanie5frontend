@@ -52,7 +52,7 @@ export default function LogoutPage() {
         };
 
         performLogout();
-    }, [navigate, API]);
+    }, [navigate, API, t]);
 
     if (error) {
         return (
