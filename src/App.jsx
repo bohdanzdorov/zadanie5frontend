@@ -1,4 +1,5 @@
 import './App.css'
+import {useEffect} from 'react'
 import { Routes, Route } from 'react-router-dom'
 import MenuPage from './Pages/MenuPage.jsx'
 import {TestPage} from './Pages/TestPage.jsx'
@@ -13,18 +14,24 @@ import { ensureGuestId } from './utils/guestUser';
 import SwaggerPage from "./Pages/SwaggerPage.jsx";
 
 function App() {
-    axios.interceptors.request.use(config => {
-        const token = localStorage.getItem('token');
+    useEffect(() => {
+        ensureGuestId();
+        const interceptorId = axios.interceptors.request.use(config => {
+            const token = localStorage.getItem('token');
 
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
-        } else {
-            // Only add guest ID if no auth token exists
-            config.headers['X-Guest-ID'] = ensureGuestId();
-        }
+            if (token) {
+                config.headers.Authorization = `Bearer ${token}`;
+            } else {
+                // Always ensure guest ID exists and is added for non-authenticated requests
+                config.headers['X-Guest-ID'] = localStorage.getItem('guest_id');
+            }
 
-        return config;
-    });
+            return config;
+        });
+        return () => {
+            axios.interceptors.request.eject(interceptorId);
+        };
+    }, []);
     return (
         <Routes>
             {/*MathGenius/dist/*/}

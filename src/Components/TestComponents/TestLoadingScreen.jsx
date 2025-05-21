@@ -6,7 +6,7 @@ export const TestLoadingScreen = () => {
     const { t, i18n } = useTranslation();
 
     return(
-        <div className="test-panel">
+        <div className="test-panel test-div">
            <div className={"loading-screen-div"}>
                <h2 className={"loading-text"}>{t('testLoadingScreen')}</h2>
            </div>

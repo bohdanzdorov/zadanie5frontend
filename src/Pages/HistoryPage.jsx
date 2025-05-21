@@ -5,11 +5,9 @@ import {
     PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer
 } from 'recharts';
 import { MathText } from "../Components/MathText.jsx";
-import {useTranslation} from "react-i18next";
+import BackButton from "../Components/BackButton.jsx";
 
 export default function HistoryPage() {
-    const { t, i18n } = useTranslation();
-
     const [questionStats, setQuestionStats] = useState([]);
     const [locationStats, setLocationStats] = useState([]);
     const [language, setLanguage] = useState("en");
@@ -78,69 +76,74 @@ export default function HistoryPage() {
     if (loading) return <p>Loading...</p>;
 
     return (
-        <div className="history-wrapper">
-            <div className="history-container">
-                <h2>📊 {t('historyPage.testStatistics')}:</h2>
-                <p><strong>{t('historyPage.totalTests')}:</strong> {totalTests}</p>
+        <div className="main-div">
+            <BackButton/>
+            <div className="history-wrapper">
+                <div className="history-container">
+                    <h2>📊 Test Statistics</h2>
+                    <p><strong>Total tests taken:</strong> {totalTests}</p>
 
-                <div className="button-container">
-                    <button className="button" onClick={handleExport}>⬇️ {t('historyPage.buttons.exportCSV')}</button>
-                    <button className="button danger" onClick={handleClear}>🗑️ {t('historyPage.buttons.clearHistory')}</button>
-                </div>
+                    <div className="button-container">
+                        <button className="button" onClick={handleExport}>⬇️ Export CSV</button>
+                        <button className="button danger" onClick={handleClear}>🗑️ Clear History</button>
+                    </div>
 
-                <div className="history-table-section">
-                    <h3>🧠 {t('historyPage.questions')}</h3>
-                    <table className="styled-table">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>{language === "sk" ? "SK" : "EN"}</th>
-                            <th>Field</th>
-                            <th>Included</th>
-                            <th>Correct</th>
-                            <th>Incorrect</th>
-                            <th>Avg Time</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {questionStats.map(q => (
-                            <tr key={q.question_id}>
-                                <td>{q.question_id}</td>
-                                <td><MathText text={language === "sk" ? q.question_text_sk : q.question_text_en} /></td>
-                                <td>{language === "sk" ? q.field_sk : q.field_en}</td>
-                                <td>{q.included_in_tests}</td>
-                                <td>{q.correct_count}</td>
-                                <td>{q.incorrect_count}</td>
-                                <td>{Number(q.average_time_spent).toFixed(1)}</td>
+                    <div className="history-table-section">
+                        <h3>🧠 Questions</h3>
+                        <table className="styled-table">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>{language === "sk" ? "SK" : "EN"}</th>
+                                <th>Field</th>
+                                <th>Included</th>
+                                <th>Correct</th>
+                                <th>Incorrect</th>
+                                <th>Avg Time</th>
                             </tr>
-                        ))}
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody>
+                            {questionStats.map(q => (
+                                <tr key={q.question_id}>
+                                    <td>{q.question_id}</td>
+                                    <td><MathText text={language === "sk" ? q.question_text_sk : q.question_text_en}/>
+                                    </td>
+                                    <td>{language === "sk" ? q.field_sk : q.field_en}</td>
+                                    <td>{q.included_in_tests}</td>
+                                    <td>{q.correct_count}</td>
+                                    <td>{q.incorrect_count}</td>
+                                    <td>{Number(q.average_time_spent).toFixed(1)}</td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                    </div>
 
-                <div className="chart-section">
-                    <h3 style={{ marginTop: 40 }}>🌍 {t('historyPage.questions')}</h3>
-                    <div className="chart-wrapper">
-                        <ResponsiveContainer>
-                            <PieChart>
-                                <Pie
-                                    data={getCountryChartData()}
-                                    dataKey="value"
-                                    nameKey="name"
-                                    outerRadius={100}
-                                    label
-                                >
-                                    {getCountryChartData().map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={chartColors[index % chartColors.length]} />
-                                    ))}
-                                </Pie>
-                                <Tooltip />
-                                <Legend />
-                            </PieChart>
-                        </ResponsiveContainer>
+                    <div className="chart-section">
+                        <h3 style={{marginTop: 40}}>🌍 Locations</h3>
+                        <div className="chart-wrapper">
+                            <ResponsiveContainer>
+                                <PieChart>
+                                    <Pie
+                                        data={getCountryChartData()}
+                                        dataKey="value"
+                                        nameKey="name"
+                                        outerRadius={100}
+                                        label
+                                    >
+                                        {getCountryChartData().map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={chartColors[index % chartColors.length]}/>
+                                        ))}
+                                    </Pie>
+                                    <Tooltip/>
+                                    <Legend/>
+                                </PieChart>
+                            </ResponsiveContainer>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
     );
 }
