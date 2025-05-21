@@ -46,7 +46,7 @@ export const TestResultsMenu = ({ testResult }) => {
     }
 
     return (
-        <div className="test-panel">
+        <div className="test-panel test-div">
             <div className="results-header">
                 <h3 className="title">{t('testResultMenu.title')}</h3>
                 <p className="meta">
