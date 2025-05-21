@@ -34,6 +34,7 @@ function App() {
     }, []);
     return (
         <Routes>
+            {/*MathGenius/dist/*/}
             <Route path="/" element={<MenuPage />} />
             <Route path="/test" element={<TestPage />} />
             <Route path="/history" element={<HistoryPage />} />

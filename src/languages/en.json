@@ -197,5 +197,18 @@
       "role" : "Role is required.",
       "language" : "Language is required."
     }
-  }
+  },
+  "historyPage" : {
+    "testStatistics" : "Test Statistics",
+    "totalTests" : "Total tests taken",
+    "buttons" : {
+      "exportCSV" : "Export CSV",
+      "clearHistory" : "Clear History"
+    },
+    "questions" : "Questions",
+    "locations" : "Locations",
+    "incorrect" : "Incorrect",
+    "included" : "Included"
+  },
+  "backButton" : "Back"
 }
