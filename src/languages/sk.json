@@ -194,5 +194,16 @@
       "role": "Rola je povinná.",
       "language": "Jazyk je povinný."
     }
+  },
+  "historyPage": {
+    "testStatistics": "Štatistiky testov",
+    "totalTests": "Celkový počet vykonaných testov",
+    "buttons": {
+      "exportCSV": "Exportovať CSV",
+      "clearHistory": "Vymazať históriu"
+    },
+    "questions": "Otázky",
+    "locations": "Miesta"
   }
+
 }

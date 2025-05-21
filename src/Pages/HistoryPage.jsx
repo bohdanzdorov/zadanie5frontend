@@ -5,8 +5,11 @@ import {
     PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer
 } from 'recharts';
 import { MathText } from "../Components/MathText.jsx";
+import {useTranslation} from "react-i18next";
 
 export default function HistoryPage() {
+    const { t, i18n } = useTranslation();
+
     const [questionStats, setQuestionStats] = useState([]);
     const [locationStats, setLocationStats] = useState([]);
     const [language, setLanguage] = useState("en");
@@ -77,16 +80,16 @@ export default function HistoryPage() {
     return (
         <div className="history-wrapper">
             <div className="history-container">
-                <h2>📊 Test Statistics</h2>
-                <p><strong>Total tests taken:</strong> {totalTests}</p>
+                <h2>📊 {t('historyPage.testStatistics')}:</h2>
+                <p><strong>{t('historyPage.totalTests')}:</strong> {totalTests}</p>
 
                 <div className="button-container">
-                    <button className="button" onClick={handleExport}>⬇️ Export CSV</button>
-                    <button className="button danger" onClick={handleClear}>🗑️ Clear History</button>
+                    <button className="button" onClick={handleExport}>⬇️ {t('historyPage.buttons.exportCSV')}</button>
+                    <button className="button danger" onClick={handleClear}>🗑️ {t('historyPage.buttons.clearHistory')}</button>
                 </div>
 
                 <div className="history-table-section">
-                    <h3>🧠 Questions</h3>
+                    <h3>🧠 {t('historyPage.questions')}</h3>
                     <table className="styled-table">
                         <thead>
                         <tr>
@@ -116,7 +119,7 @@ export default function HistoryPage() {
                 </div>
 
                 <div className="chart-section">
-                    <h3 style={{ marginTop: 40 }}>🌍 Locations</h3>
+                    <h3 style={{ marginTop: 40 }}>🌍 {t('historyPage.questions')}</h3>
                     <div className="chart-wrapper">
                         <ResponsiveContainer>
                             <PieChart>
