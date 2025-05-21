@@ -1,0 +1,23 @@
+.gradient-back-button {
+    background: linear-gradient(135deg, #d0f5e1, #ffffff); /* light green to white */
+    color: #2e7d32;
+    border: 1px solid #b2dfdb;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 0.5rem 1.25rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    margin: 1% 0 0 1%;
+}
+
+.gradient-back-button .pi {
+    margin-right: 0.5rem;
+    color: #388e3c;
+}
+
+.gradient-back-button:hover {
+    background: linear-gradient(135deg, #c8facc, #ffffff); /* slightly deeper on hover */
+    color: #1b5e20;
+    transform: scale(1.03);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+}

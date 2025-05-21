@@ -1,8 +1,15 @@
+.main-div{
+  width: 100%;
+  height: 100%;
+}
 .auth-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 80vh;
+  height: 100vh;
+  margin-bottom: 1rem;
+  width: 100%;
   padding: 2rem;
 }
 
@@ -45,4 +52,48 @@
 
 .w-100 {
   width: 100%;
+}
+/* Outer password container */
+.p-password {
+  width: 100%;
+}
+
+/* Inner wrapper when toggleMask is enabled */
+.p-password .p-password-input {
+  width: 100%;
+  display: flex;
+}
+
+/* The actual input element */
+.p-password input {
+  flex: 1 1 auto;
+  width: 100%;
+  padding-right: 2.5rem; /* room for icon */
+}
+
+.p-icon-field {
+  width: 100%;
+}
+.field select {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #495057;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2328a745' class='bi bi-caret-down-fill' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14l-4.796-5.481A.5.5 0 0 1 2.451 5h11.098a.5.5 0 0 1 .4.82l-4.796 5.48a.5.5 0 0 1-.705 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1em;
+}
+
+.field select:focus {
+  outline: none;
+  border-color: #28a745; /* green */
+  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25); /* green shadow */
+  background-color: #fff;
 }
