@@ -53,6 +53,7 @@
     display: flex;
     align-items: center;
     margin-bottom: 15px;
+    margin-top: 15px;
 }
 
 .option input {
@@ -119,4 +120,40 @@
 .next-btn:focus {
     outline: none;
     box-shadow: 0 0 10px rgba(72, 178, 92, 0.6);
+}
+
+@media (max-width: 1200px) {
+    .test-panel {
+        height: 75vh;
+    }
+
+    .option {
+        margin-bottom: 6%;
+        margin-top: 6%;
+    }
+
+    .option span {
+        font-size: 1.1rem;
+        color: #555;
+    }
+
+    .question-text {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 800px) {
+    .test-panel {
+        height: 85vh;
+    }
+
+    .option {
+        margin-bottom: 8%;
+        margin-top: 8%;
+    }
+
+    .option span {
+        font-size: 0.9rem;
+        color: #555;
+    }
 }
