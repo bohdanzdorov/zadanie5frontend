@@ -196,14 +196,16 @@
     }
   },
   "historyPage": {
-    "testStatistics": "Štatistiky testov",
+    "testStatistics": "Štatistika testov",
     "totalTests": "Celkový počet vykonaných testov",
     "buttons": {
       "exportCSV": "Exportovať CSV",
       "clearHistory": "Vymazať históriu"
     },
     "questions": "Otázky",
-    "locations": "Miesta"
-  }
-
+    "locations": "Miesta",
+    "incorrect": "Nesprávne",
+    "included": "Zahrnuté"
+  },
+  "backButton": "Späť"
 }

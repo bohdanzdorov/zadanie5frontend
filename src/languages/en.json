@@ -206,6 +206,9 @@
       "clearHistory" : "Clear History"
     },
     "questions" : "Questions",
-    "locations" : "Locations"
-  }
+    "locations" : "Locations",
+    "incorrect" : "Incorrect",
+    "included" : "Included"
+  },
+  "backButton" : "Back"
 }

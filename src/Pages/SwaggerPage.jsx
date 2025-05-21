@@ -9,16 +9,15 @@ export default function SwaggerPage() {
             padding: 0,
             overflow: 'hidden'
         }}>
-            <BackButton />
+            <BackButton/>
             <iframe
                 src="http://localhost:8000/api/documentation"
                 title="API Docs"
-                width="100%"
-                height="100%"
                 style={{
                     border: 'none',
-                    margin: "5% 0 0 0",
-                    padding: 0,
+                    marginTop: '2vh',
+                    width: '100%',
+                    height: '93vh',
                 }}
             />
         </div>
